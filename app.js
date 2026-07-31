@@ -189,7 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function setupGlobalModalListeners() {
   document.querySelectorAll('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('click', (e) => {
-      // Dismiss modal if user clicks anywhere on the dark backdrop outside modal sheet
       if (e.target === overlay) {
         overlay.classList.remove('active');
       }
@@ -660,7 +659,7 @@ function closeV2SummaryModal() {
   document.getElementById('booking-summary-modal').classList.remove('active');
 }
 
-// --- PAYMENT GATEWAY MODAL & NAVIGATION FIX ---
+// --- PAYMENT GATEWAY MODAL & INTERACTIVE EXECUTION ---
 function openPaymentGatewayModal() {
   const container = document.getElementById('payment-gateway-container');
   if (!container || !selectedCarForBooking) return;
@@ -683,7 +682,7 @@ function openPaymentGatewayModal() {
     </div>
 
     <div class="payment-header">
-      <span class="payment-badge">Razorpay / PhonePe Gateway</span>
+      <span class="payment-badge">Razorpay / PhonePe Payment Gateway</span>
       <h3>Select Payment Method</h3>
       <p style="font-size: 12px; color: var(--text-grey);">Amount Payable: <strong style="color: var(--primary-green); font-size: 16px;">₹${payable.toLocaleString('en-IN')}</strong></p>
     </div>
@@ -716,14 +715,15 @@ function openPaymentGatewayModal() {
 
     <div style="display: flex; gap: 10px; margin-top: 18px;">
       <button class="btn-secondary" onclick="goBackToSummaryFromPayment()">Back</button>
-      <button class="btn-primary" onclick="verifyAndExecutePayment(${payable})">Pay ₹${payable.toLocaleString('en-IN')} & Create Booking</button>
+      <button class="btn-primary" id="pay-now-action-btn" onclick="verifyAndExecutePayment(${payable})">
+        <i class="ri-lock-line"></i> Pay ₹${payable.toLocaleString('en-IN')} & Create Booking
+      </button>
     </div>
   `;
 
   document.getElementById('payment-gateway-modal').classList.add('active');
 }
 
-// Navigation Fix: Back button in payment modal smoothly opens summary modal
 function goBackToSummaryFromPayment() {
   closePaymentGatewayModal();
   if (selectedCarForBooking) {
@@ -748,35 +748,43 @@ function verifyAndExecutePayment(totalPayable) {
     return;
   }
 
-  const newBooking = {
-    bookingId: `FLX-${Math.floor(10000 + Math.random() * 90000)}`,
-    car: car,
-    pickupLocation: activeBookingState.location,
-    pickupDateTime: `${activeBookingState.pickupDate}, ${activeBookingState.pickupTime}`,
-    dropoffDateTime: `${activeBookingState.dropDate}, ${activeBookingState.dropTime}`,
-    durationHours: activeBookingState.durationHours,
-    hourlyRate: car.ratePerHour,
-    rentalAmount: car.ratePerHour * activeBookingState.durationHours,
-    gstTax: Math.round((car.ratePerHour * activeBookingState.durationHours) * 0.18),
-    unlimitedKmUpgrade: activeBookingState.unlimitedKmUpgrade,
-    unlimitedKmFee: activeBookingState.unlimitedKmUpgrade ? 500 : 0,
-    couponDiscount: activeBookingState.couponDiscount,
-    grandTotal: totalPayable,
-    status: 'UPCOMING',
-    paymentStatus: 'PAID',
-    paymentMethod: activeBookingState.paymentMethod.toUpperCase(),
-    bookedAt: new Date().toLocaleString('en-IN')
-  };
-
-  car.status = 'Booked';
-
-  myBookings.unshift(newBooking);
-  closePaymentGatewayModal();
-  showToast(`🎉 Payment Verified! Booking ID: ${newBooking.bookingId}`);
+  const btn = document.getElementById('pay-now-action-btn');
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = `<i class="ri-loader-4-line ri-spin"></i> Processing Secure Payment...`;
+  }
 
   setTimeout(() => {
+    const bookingId = `FLX-${Math.floor(10000 + Math.random() * 90000)}`;
+    const newBooking = {
+      bookingId: bookingId,
+      car: car,
+      pickupLocation: activeBookingState.location,
+      pickupDateTime: `${activeBookingState.pickupDate}, ${activeBookingState.pickupTime}`,
+      dropoffDateTime: `${activeBookingState.dropDate}, ${activeBookingState.dropTime}`,
+      durationHours: activeBookingState.durationHours,
+      hourlyRate: car.ratePerHour,
+      rentalAmount: car.ratePerHour * activeBookingState.durationHours,
+      gstTax: Math.round((car.ratePerHour * activeBookingState.durationHours) * 0.18),
+      unlimitedKmUpgrade: activeBookingState.unlimitedKmUpgrade,
+      unlimitedKmFee: activeBookingState.unlimitedKmUpgrade ? 500 : 0,
+      couponDiscount: activeBookingState.couponDiscount,
+      grandTotal: totalPayable,
+      status: 'UPCOMING',
+      paymentStatus: 'PAID',
+      paymentMethod: activeBookingState.paymentMethod.toUpperCase(),
+      bookedAt: new Date().toLocaleString('en-IN')
+    };
+
+    car.status = 'Booked';
+    myBookings.unshift(newBooking);
+
+    closePaymentGatewayModal();
+    showToast(`🎉 Payment Verified! Booking ID: ${bookingId}`);
+
     switchMainTab('trips-tab');
-  }, 400);
+    renderAvailableFleet();
+  }, 1200);
 }
 
 function closePaymentGatewayModal() {

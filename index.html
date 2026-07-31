@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>FlexRide - Hyderabad Self-Drive Car Rental</title>
   <!-- RemixIcons -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -12,16 +12,6 @@
 
   <div class="app-container">
     
-    <!-- Top Mobile Phone Status Bar -->
-    <div class="status-bar">
-      <span>09:41</span>
-      <div class="icons">
-        <i class="ri-signal-tower-fill"></i>
-        <i class="ri-wifi-line"></i>
-        <i class="ri-battery-charge-fill" style="color: var(--primary-green);"></i>
-      </div>
-    </div>
-
     <!-- App Header (FlexRide Branding) -->
     <header class="app-header">
       <div class="brand-logo">
@@ -29,7 +19,7 @@
       </div>
       <div class="header-actions">
         <span class="hyd-chip">Hyderabad Only</span>
-        <button class="icon-btn" title="Notifications">
+        <button class="icon-btn" title="Notifications" onclick="showToast('No new notifications')">
           <i class="ri-notification-3-line"></i>
           <span class="notification-dot"></span>
         </button>
