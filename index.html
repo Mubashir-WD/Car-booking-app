@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlexRide - Hyderabad Self-Drive Car Rental</title>
+  <!-- RemixIcons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Top Mobile Phone Status Bar -->
+    <div class="status-bar">
+      <span>09:41</span>
+      <div class="icons">
+        <i class="ri-signal-tower-fill"></i>
+        <i class="ri-wifi-line"></i>
+        <i class="ri-battery-charge-fill" style="color: var(--primary-green);"></i>
+      </div>
+    </div>
+
+    <!-- App Header (FlexRide Branding) -->
+    <header class="app-header">
+      <div class="brand-logo">
+        Flex<span class="brand-badge">Ride</span>
+      </div>
+      <div class="header-actions">
+        <span class="hyd-chip">Hyderabad Only</span>
+        <button class="icon-btn" title="Notifications">
+          <i class="ri-notification-3-line"></i>
+          <span class="notification-dot"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Scrollable Content Area -->
+    <main class="main-content">
+      
+      <!-- TAB 1: EXPLORE CARS (HOME) -->
+      <section id="home-tab" class="tab-screen active">
+        
+        <!-- Hyderabad Location Search Box (Places Autocomplete + GPS) -->
+        <div class="section-padding" style="margin-top: 6px;">
+          <div class="location-search-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <label style="font-size: 11px; font-weight: 800; color: var(--primary-green); text-transform: uppercase; letter-spacing: 0.5px;">
+                <i class="ri-map-pin-2-fill"></i> Pickup Location in Hyderabad
+              </label>
+              <button class="use-gps-btn" onclick="useCurrentLocationGPS()" title="Use Current GPS Location">
+                <i class="ri-crosshair-2-line"></i> Current Location
+              </button>
+            </div>
+            <div style="position: relative; margin-top: 6px;">
+              <input type="text" class="location-input" id="location-search-input" placeholder="Search Tolichowki, Madhapur, Gachibowli..." value="Madhapur, Hyderabad" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
+              <!-- Autocomplete suggestions popup -->
+              <div class="autocomplete-box" id="location-suggestions"></div>
+            </div>
+          </div>
+
+          <!-- Pickup & Drop Date & Time Selector -->
+          <div class="date-picker-card" style="margin-top: 10px;">
+            <div style="display: flex; gap: 8px;">
+              <div style="flex: 1;">
+                <label class="picker-label"><i class="ri-calendar-line"></i> Pickup</label>
+                <input type="date" class="date-input" id="search-pickup-date" onchange="validateSearchDateTime()">
+                <input type="time" class="time-input" id="search-pickup-time" onchange="validateSearchDateTime()">
+              </div>
+              <div style="flex: 1;">
+                <label class="picker-label"><i class="ri-calendar-event-line"></i> Drop-off</label>
+                <input type="date" class="date-input" id="search-drop-date" onchange="validateSearchDateTime()">
+                <input type="time" class="time-input" id="search-drop-time" onchange="validateSearchDateTime()">
+              </div>
+            </div>
+            <div style="font-size: 10px; color: var(--primary-green); font-weight: 700; margin-top: 6px; text-align: right;">
+              ⚡ Minimum booking: 12 Hours (Unlimited Max)
+            </div>
+          </div>
+
+          <!-- Fleet Search Query & Sort -->
+          <div class="search-row" style="margin-top: 10px;">
+            <div class="search-input-wrapper">
+              <i class="ri-search-2-line"></i>
+              <input type="text" class="search-input" placeholder="Search Thar, Virtus, i20..." id="fleet-search-input">
+            </div>
+            <div class="sort-select-wrapper">
+              <select id="sort-select" class="sort-select">
+                <option value="relevance">Popular</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Top Rated</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Pills -->
+        <div class="categories-scroll">
+          <div class="category-pill active" data-filter="all">
+            <i class="ri-apps-2-line"></i> All Fleet
+          </div>
+          <div class="category-pill" data-filter="hatchback">
+            <i class="ri-car-line"></i> Hatchback
+          </div>
+          <div class="category-pill" data-filter="sedan">
+            <i class="ri-roadster-line"></i> Sedan
+          </div>
+          <div class="category-pill" data-filter="suv">
+            <i class="ri-car-fill"></i> SUV
+          </div>
+          <div class="category-pill" data-filter="luxury">
+            <i class="ri-vip-crown-line"></i> Luxury
+          </div>
+          <div class="category-pill" data-filter="petrol">
+            <i class="ri-gas-station-line"></i> Petrol
+          </div>
+          <div class="category-pill" data-filter="diesel">
+            <i class="ri-oil-line"></i> Diesel
+          </div>
+        </div>
+
+        <!-- Available Fleet List Header -->
+        <div class="section-padding">
+          <div class="section-header">
+            <div class="section-title">Available Hyderabad Fleet</div>
+            <span style="font-size: 11px; color: var(--primary-green); font-weight: 700;">400 KM Included FREE</span>
+          </div>
+        </div>
+
+        <!-- Available Vehicles Container -->
+        <div class="fleet-list" id="fleet-list-container">
+          <!-- Dynamically injected by JS -->
+        </div>
+
+      </section>
+
+      <!-- TAB 2: MY TRIPS -->
+      <section id="trips-tab" class="tab-screen">
+        <div class="section-padding" style="margin-top: 10px;">
+          <h2 style="font-size: 20px; font-weight: 800;">My Trips & Bookings</h2>
+          <p style="font-size: 12px; color: var(--text-grey); margin-top: 2px;">Confirmed bookings, unlock controls & invoices</p>
+
+          <div class="trip-filter-tabs">
+            <button class="trip-filter-pill active" data-trip-status="UPCOMING" onclick="setTripsFilterTab('UPCOMING')">Upcoming</button>
+            <button class="trip-filter-pill" data-trip-status="COMPLETED" onclick="setTripsFilterTab('COMPLETED')">Completed</button>
+            <button class="trip-filter-pill" data-trip-status="CANCELLED" onclick="setTripsFilterTab('CANCELLED')">Cancelled</button>
+          </div>
+
+          <div id="my-trips-list" style="margin-top: 14px;">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: PROFILE & KYC VERIFICATION -->
+      <section id="profile-tab" class="tab-screen">
+        <div class="placeholder-screen">
+          <div style="text-align: center; margin-bottom: 20px;">
+            <div style="width: 80px; height: 80px; border-radius: 50%; background: #E8F5E9; color: var(--primary-green); display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 800; margin: 0 auto 10px; border: 3px solid var(--primary-green);">
+              JD
+            </div>
+            <h2 style="font-size: 20px; font-weight: 800;">John Doe</h2>
+            <span style="background: #E8F5E9; color: var(--primary-green); font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 20px; display: inline-block; margin-top: 6px;">
+              <i class="ri-checkbox-circle-fill"></i> Hyderabad DL Verified
+            </span>
+          </div>
+
+          <div class="card-box" style="text-align: left;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+              <span style="font-weight: 600; font-size: 13px;"><i class="ri-id-card-line" style="color: var(--primary-green);"></i> Driving Licence Status</span>
+              <span class="status-badge verified">VERIFIED</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+              <span style="font-weight: 600; font-size: 13px;"><i class="ri-shield-check-line" style="color: var(--primary-green);"></i> Security Deposit</span>
+              <span style="color: var(--primary-green); font-size: 13px; font-weight: 700;">₹0 Zero Deposit</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 600; font-size: 13px;"><i class="ri-phone-line" style="color: var(--primary-green);"></i> Mobile</span>
+              <span style="color: var(--text-dark); font-size: 13px; font-weight: 700;">+91 98490 12345</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: ADMIN PORTAL PREVIEW -->
+      <section id="admin-tab" class="tab-screen">
+        <div class="section-padding" id="admin-dashboard-container" style="margin-top: 10px;">
+          <!-- Admin Portal injected dynamically -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+      <div class="nav-item active" data-tab="home-tab">
+        <i class="ri-car-line"></i>
+        <span>Explore</span>
+      </div>
+      <div class="nav-item" data-tab="trips-tab">
+        <i class="ri-route-line"></i>
+        <span>My Trips</span>
+      </div>
+      <div class="nav-item" data-tab="profile-tab">
+        <i class="ri-user-3-line"></i>
+        <span>Profile</span>
+      </div>
+      <div class="nav-item" data-tab="admin-tab">
+        <i class="ri-admin-line"></i>
+        <span>Admin</span>
+      </div>
+    </nav>
+
+    <!-- BOOKING SUMMARY SCREEN MODAL -->
+    <div class="modal-overlay" id="booking-summary-modal">
+      <div class="modal-sheet" id="booking-summary-container">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- PAYMENT GATEWAY MODAL -->
+    <div class="modal-overlay" id="payment-gateway-modal">
+      <div class="modal-sheet" id="payment-gateway-container">
+        <!-- Payment screen rendered by JS -->
+      </div>
+    </div>
+
+    <!-- TRIP CANCELLATION MODAL -->
+    <div class="modal-overlay" id="cancel-modal">
+      <div class="modal-sheet" style="padding-bottom: 24px;">
+        <div class="modal-sheet-header">
+          <div class="sheet-handle"></div>
+          <button class="modal-close-btn" onclick="closeCancelModal()" title="Close Popup">
+            <i class="ri-close-line"></i>
+          </button>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 14px;">
+          <div style="width: 48px; height: 48px; background: #FEF2F2; color: #DC2626; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 10px;">
+            <i class="ri-error-warning-line"></i>
+          </div>
+          <h3 class="modal-title">Cancel Trip Booking?</h3>
+          <p class="modal-subtitle" id="cancel-car-info">Vehicle Info</p>
+        </div>
+
+        <div class="card-box" style="background: #F8FAFC; margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px;">
+            <span>Refund Eligibility</span>
+            <span style="color: var(--primary-green); font-weight: 700;">100% Full Refund</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 13px;">
+            <span>Refund Amount</span>
+            <strong id="cancel-refund-amount" style="color: var(--text-dark); font-size: 15px;">₹0</strong>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button class="btn-secondary" onclick="closeCancelModal()">Keep Booking</button>
+          <button class="btn-primary" style="background: #DC2626;" onclick="executeTripCancellation()">Confirm Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast-msg">
+      <i class="ri-checkbox-circle-fill"></i>
+      <span id="toast-text">Action completed</span>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
