@@ -539,6 +539,33 @@ body {
   margin-top: 8px; cursor: pointer;
 }
 
+/* Duration Selector & Vehicle Location Styling */
+.duration-btn-group {
+  display: flex; gap: 8px; margin-top: 8px; margin-bottom: 12px;
+}
+
+.duration-btn {
+  flex: 1; padding: 8px 4px; text-align: center; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--subtle-grey); background: var(--off-white);
+  font-size: 11px; font-weight: 700; color: var(--text-dark); cursor: pointer;
+  transition: var(--transition);
+}
+
+.duration-btn.active {
+  border-color: var(--primary-green); background: #ECFDF5; color: var(--primary-green);
+}
+
+.map-link-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--light-green); color: var(--primary-green);
+  border: 1px solid #A7F3D0; padding: 4px 10px; border-radius: 6px;
+  font-size: 11px; font-weight: 700; text-decoration: none;
+  transition: var(--transition);
+}
+.map-link-btn:hover {
+  background: var(--primary-green); color: var(--pure-white);
+}
+
 .coupon-row { display: flex; gap: 8px; margin-bottom: 12px; }
 .coupon-row input { flex: 1; height: 40px; border: 1.5px solid var(--subtle-grey); border-radius: var(--radius-sm); padding: 0 10px; font-size: 12px; font-weight: 700; }
 .coupon-row button { background: var(--text-dark); color: var(--pure-white); border: none; padding: 0 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 700; cursor: pointer; }

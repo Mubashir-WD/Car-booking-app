@@ -30,94 +30,73 @@ const HYDERABAD_PLACES = [
 // --- FlexRide Vehicle Database ---
 let carsData = [
   {
-    id: 'fr_1',
-    name: 'Hyundai i20 N Line',
+    id: 'car_i10',
+    name: 'Hyundai Grand i10',
     brand: 'Hyundai',
+    type: 'hatchback',
+    fuelType: 'Petrol',
+    transmission: 'Manual',
+    seatingCapacity: 5,
+    ratePerHour: 100,
+    rating: 4.90,
+    tripsCount: 142,
+    status: 'Available',
+    currentLocality: 'Tolichowki, Hyderabad',
+    locationName: 'Tolichowki Hub (Grand i10 Location)',
+    locationAddress: 'Tolichowki X Road, Tolichowki, Hyderabad',
+    mapUrl: 'https://maps.google.com/?q=Tolichowki+X+Road+Hyderabad',
+    imageUrl: 'images/grand_i10.jpg',
+    pricing: {
+      8: 800,
+      12: 1000,
+      24: 1600
+    }
+  },
+  {
+    id: 'car_kwid',
+    name: 'Renault Kwid',
+    brand: 'Renault',
     type: 'hatchback',
     fuelType: 'Petrol',
     transmission: 'Manual',
     seatingCapacity: 5,
     ratePerHour: 75,
     rating: 4.85,
-    tripsCount: 240,
+    tripsCount: 98,
     status: 'Available',
     currentLocality: 'Madhapur, Hyderabad',
-    imageUrl: 'https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?w=600&auto=format&fit=crop'
+    locationName: 'Madhapur Hub (Renault Kwid Location)',
+    locationAddress: 'Madhapur Metro Station, Madhapur, Hyderabad',
+    mapUrl: 'https://maps.google.com/?q=Madhapur+Metro+Station+Hyderabad',
+    imageUrl: 'images/renault_kwid.jpg',
+    pricing: {
+      8: 600,
+      12: 800,
+      24: 1200
+    }
   },
   {
-    id: 'fr_2',
-    name: 'Mahindra Thar 4x4 Hard Top',
-    brand: 'Mahindra',
-    type: 'suv',
-    fuelType: 'Diesel',
-    transmission: 'Automatic',
-    seatingCapacity: 4,
-    ratePerHour: 240,
-    rating: 4.96,
-    tripsCount: 310,
-    status: 'Available',
-    currentLocality: 'Gachibowli, Hyderabad',
-    imageUrl: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&auto=format&fit=crop'
-  },
-  {
-    id: 'fr_3',
-    name: 'Volkswagen Virtus GT DSG',
-    brand: 'Volkswagen',
-    type: 'sedan',
-    fuelType: 'Petrol',
-    transmission: 'Automatic',
-    seatingCapacity: 5,
-    ratePerHour: 160,
-    rating: 4.92,
-    tripsCount: 185,
-    status: 'Available',
-    currentLocality: 'Hitech City, Hyderabad',
-    imageUrl: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&auto=format&fit=crop'
-  },
-  {
-    id: 'fr_4',
-    name: 'Tata Harrier Dark Edition',
-    brand: 'Tata',
-    type: 'suv',
-    fuelType: 'Diesel',
-    transmission: 'Automatic',
-    seatingCapacity: 5,
-    ratePerHour: 220,
-    rating: 4.89,
-    tripsCount: 215,
-    status: 'Available',
-    currentLocality: 'Banjara Hills, Hyderabad',
-    imageUrl: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600&auto=format&fit=crop'
-  },
-  {
-    id: 'fr_5',
-    name: 'Toyota Fortuner Legender',
-    brand: 'Toyota',
-    type: 'luxury',
-    fuelType: 'Diesel',
-    transmission: 'Automatic',
-    seatingCapacity: 7,
-    ratePerHour: 450,
-    rating: 4.98,
-    tripsCount: 140,
-    status: 'Maintenance',
-    currentLocality: 'Jubilee Hills, Hyderabad',
-    imageUrl: 'https://images.unsplash.com/photo-1563720223185-11003d516935?w=600&auto=format&fit=crop'
-  },
-  {
-    id: 'fr_6',
-    name: 'Honda City VTEC',
-    brand: 'Honda',
+    id: 'car_skoda',
+    name: 'Skoda Rapid',
+    brand: 'Skoda',
     type: 'sedan',
     fuelType: 'Petrol',
     transmission: 'Manual',
     seatingCapacity: 5,
-    ratePerHour: 135,
-    rating: 4.84,
-    tripsCount: 195,
+    ratePerHour: 150,
+    rating: 4.95,
+    tripsCount: 176,
     status: 'Available',
-    currentLocality: 'Kondapur, Hyderabad',
-    imageUrl: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600&auto=format&fit=crop'
+    currentLocality: 'Gachibowli, Hyderabad',
+    locationName: 'Gachibowli Hub (Skoda Location)',
+    locationAddress: 'DLF Cybercity Road, Gachibowli, Hyderabad',
+    mapUrl: 'https://maps.google.com/?q=DLF+Cybercity+Gachibowli+Hyderabad',
+    imageUrl: 'images/skoda.jpg',
+    pricing: {
+      8: 1200,
+      12: 1600,
+      24: 2400
+    }
   }
 ];
 
@@ -126,17 +105,17 @@ let myBookings = [
   {
     bookingId: 'FLX-98412',
     car: carsData[0],
-    pickupLocation: 'Madhapur, Hyderabad',
+    pickupLocation: 'Tolichowki X Road, Tolichowki, Hyderabad',
     pickupDateTime: '01 Aug 2026, 10:00 AM',
-    dropoffDateTime: '02 Aug 2026, 10:00 AM',
-    durationHours: 24,
-    hourlyRate: 75,
-    rentalAmount: 1800,
-    gstTax: 324,
+    dropoffDateTime: '01 Aug 2026, 06:00 PM',
+    durationHours: 8,
+    hourlyRate: 100,
+    rentalAmount: 800,
+    gstTax: 144,
     unlimitedKmUpgrade: false,
     unlimitedKmFee: 0,
     couponDiscount: 100,
-    grandTotal: 2024,
+    grandTotal: 844,
     status: 'UPCOMING',
     paymentStatus: 'PAID',
     paymentMethod: 'UPI (PhonePe)',
@@ -409,40 +388,44 @@ function renderAvailableFleet() {
     return;
   }
 
-  container.innerHTML = availableCars.map(car => `
-    <div class="fleet-card" onclick="openV2BookingSummary('${car.id}')">
-      <div class="fleet-card-img">
-        <img src="${car.imageUrl}" alt="${car.name}">
-        <span class="fuel-tag">${car.fuelType}</span>
-      </div>
-      <div class="fleet-card-content">
-        <div>
-          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-            <h3 class="car-title">${car.name}</h3>
-            <span class="rating-badge"><i class="ri-star-fill"></i> ${car.rating}</span>
-          </div>
-          <div class="car-specs-row">
-            <span><i class="ri-user-3-line"></i> ${car.seatingCapacity} Seats</span>
-            <span><i class="ri-settings-4-line"></i> ${car.transmission}</span>
-            <span><i class="ri-roadster-line"></i> ${car.type.toUpperCase()}</span>
-          </div>
-          <div style="font-size: 11px; color: var(--text-grey); margin-top: 4px;">
-            <i class="ri-map-pin-2-line" style="color: var(--primary-green);"></i> ${selectedLocation}
-          </div>
+  container.innerHTML = availableCars.map(car => {
+    const base8h = car.pricing ? car.pricing[8] : car.ratePerHour * 8;
+    return `
+      <div class="fleet-card" onclick="openV2BookingSummary('${car.id}')">
+        <div class="fleet-card-img">
+          <img src="${car.imageUrl}" alt="${car.name}">
+          <span class="fuel-tag">${car.fuelType}</span>
         </div>
-
-        <div class="price-action-row" style="margin-top: 10px;">
+        <div class="fleet-card-content">
           <div>
-            <div class="car-rate">₹${car.ratePerHour} <span style="font-size: 11px; color: var(--text-grey); font-weight: 500;">/hr</span></div>
-            <div style="font-size: 10px; color: var(--primary-green); font-weight: 700;">400 KM Included FREE</div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <h3 class="car-title">${car.name}</h3>
+              <span class="rating-badge"><i class="ri-star-fill"></i> ${car.rating}</span>
+            </div>
+            <div class="car-specs-row">
+              <span><i class="ri-user-3-line"></i> ${car.seatingCapacity} Seats</span>
+              <span><i class="ri-settings-4-line"></i> ${car.transmission}</span>
+              <span><i class="ri-roadster-line"></i> ${car.type.toUpperCase()}</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-grey); margin-top: 4px; display: flex; align-items: center; gap: 4px;">
+              <i class="ri-map-pin-2-fill" style="color: var(--primary-green);"></i>
+              <span style="font-weight: 600; color: var(--text-dark);">${car.locationAddress || car.currentLocality}</span>
+            </div>
           </div>
-          <button class="book-now-btn" onclick="event.stopPropagation(); openV2BookingSummary('${car.id}')">
-            Book Now
-          </button>
+
+          <div class="price-action-row" style="margin-top: 10px;">
+            <div>
+              <div class="car-rate">₹${base8h.toLocaleString('en-IN')} <span style="font-size: 10px; color: var(--text-grey); font-weight: 600;">/ 8 hrs</span></div>
+              <div style="font-size: 10px; color: var(--primary-green); font-weight: 700;">8h, 12h, 24h packages • 400 KM FREE</div>
+            </div>
+            <button class="book-now-btn" onclick="event.stopPropagation(); openV2BookingSummary('${car.id}')">
+              Book Now
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function setupCategoryPills() {
@@ -524,11 +507,30 @@ function openV2BookingSummary(carId) {
   document.getElementById('booking-summary-modal').classList.add('active');
 }
 
+function setBookingDuration(hours) {
+  activeBookingState.durationHours = hours;
+  if (activeBookingState.pickupDate && activeBookingState.pickupTime) {
+    const pick = new Date(`${activeBookingState.pickupDate}T${activeBookingState.pickupTime}`);
+    if (!isNaN(pick.getTime())) {
+      const drop = new Date(pick.getTime() + hours * 60 * 60 * 1000);
+      const formatD = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      const formatT = (d) => `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+      activeBookingState.dropDate = formatD(drop);
+      activeBookingState.dropTime = formatT(drop);
+      const dDateInput = document.getElementById('search-drop-date');
+      const dTimeInput = document.getElementById('search-drop-time');
+      if (dDateInput) dDateInput.value = activeBookingState.dropDate;
+      if (dTimeInput) dTimeInput.value = activeBookingState.dropTime;
+    }
+  }
+  renderV2SummaryModal();
+}
+
 function renderV2SummaryModal() {
   if (!selectedCarForBooking) return;
   const car = selectedCarForBooking;
-  const hrs = activeBookingState.durationHours;
-  const rentalAmount = car.ratePerHour * hrs;
+  const hrs = activeBookingState.durationHours || 12;
+  const rentalAmount = (car.pricing && car.pricing[hrs]) ? car.pricing[hrs] : (car.ratePerHour * hrs);
   const gstTax = Math.round(rentalAmount * 0.18);
   const unlimitedKmFee = activeBookingState.unlimitedKmUpgrade ? 500 : 0;
   const discount = activeBookingState.couponDiscount || 0;
@@ -555,21 +557,47 @@ function renderV2SummaryModal() {
       <div>
         <h4 style="font-size: 15px; font-weight: 800; color: var(--text-dark);">${car.name}</h4>
         <p style="font-size: 11px; color: var(--text-grey);">${car.brand} • ${car.fuelType} • ${car.transmission} • ${car.seatingCapacity} Seats</p>
-        <span style="color: var(--primary-green); font-weight: 800; font-size: 13px;">₹${car.ratePerHour} / hour</span>
+        <span style="color: var(--primary-green); font-weight: 800; font-size: 13px;">₹${rentalAmount.toLocaleString('en-IN')} / ${hrs} hours</span>
       </div>
     </div>
 
-    <div class="summary-schedule-box">
-      <div>
-        <span style="font-size: 10px; color: var(--text-grey); font-weight: 700;">PICKUP LOCATION</span>
-        <div style="font-size: 12px; font-weight: 800; color: var(--text-dark);"><i class="ri-map-pin-2-fill" style="color: var(--primary-green);"></i> ${activeBookingState.location}</div>
+    <!-- Duration Package Selector -->
+    <div style="margin-bottom: 12px;">
+      <label style="font-size: 11px; font-weight: 800; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.5px;">Select Rental Duration Package</label>
+      <div class="duration-btn-group">
+        <button class="duration-btn ${hrs === 8 ? 'active' : ''}" onclick="setBookingDuration(8)">
+          8 Hours<br><span style="font-size: 10px; opacity: 0.9;">₹${(car.pricing[8] || car.ratePerHour * 8).toLocaleString('en-IN')}</span>
+        </button>
+        <button class="duration-btn ${hrs === 12 ? 'active' : ''}" onclick="setBookingDuration(12)">
+          12 Hours<br><span style="font-size: 10px; opacity: 0.9;">₹${(car.pricing[12] || car.ratePerHour * 12).toLocaleString('en-IN')}</span>
+        </button>
+        <button class="duration-btn ${hrs === 24 ? 'active' : ''}" onclick="setBookingDuration(24)">
+          24 Hours<br><span style="font-size: 10px; opacity: 0.9;">₹${(car.pricing[24] || car.ratePerHour * 24).toLocaleString('en-IN')}</span>
+        </button>
       </div>
-      <div style="margin-top: 8px; display: flex; justify-content: space-between; font-size: 11px; color: var(--text-grey);">
+    </div>
+
+    <!-- Vehicle Specific Pickup Location -->
+    <div class="summary-schedule-box">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div>
+          <span style="font-size: 10px; color: var(--primary-green); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">VEHICLE PICKUP LOCATION</span>
+          <div style="font-size: 13px; font-weight: 800; color: var(--text-dark); margin-top: 2px;">
+            <i class="ri-map-pin-2-fill" style="color: var(--primary-green);"></i> ${car.locationAddress || car.locationName || car.currentLocality}
+          </div>
+        </div>
+        ${car.mapUrl ? `
+          <a href="${car.mapUrl}" target="_blank" class="map-link-btn" title="Open in Google Maps">
+            <i class="ri-direction-line"></i> Maps
+          </a>
+        ` : ''}
+      </div>
+      <div style="margin-top: 10px; display: flex; justify-content: space-between; font-size: 11px; color: var(--text-grey); border-top: 1px dashed var(--subtle-grey); padding-top: 8px;">
         <span>Pickup: <strong>${activeBookingState.pickupDate}, ${activeBookingState.pickupTime}</strong></span>
         <span>Drop: <strong>${activeBookingState.dropDate}, ${activeBookingState.dropTime}</strong></span>
       </div>
-      <div style="margin-top: 4px; font-size: 12px; font-weight: 800; color: var(--primary-green); text-align: right;">
-        ⚡ Total Duration: ${hrs} Hours
+      <div style="margin-top: 4px; font-size: 11px; font-weight: 800; color: var(--primary-green); text-align: right;">
+        ⚡ Selected Duration: ${hrs} Hours Package
       </div>
     </div>
 
@@ -599,7 +627,7 @@ function renderV2SummaryModal() {
 
     <div class="summary-breakdown-card">
       <div class="breakdown-row">
-        <span>Rental Charge (₹${car.ratePerHour}/hr × ${hrs} hrs)</span>
+        <span>Package Rental Charge (${hrs} hrs)</span>
         <span>₹${rentalAmount.toLocaleString('en-IN')}</span>
       </div>
       <div class="breakdown-row">
@@ -818,18 +846,21 @@ function executeBookingCompletion(totalPayable, paymentTxnId) {
   const car = selectedCarForBooking;
   if (!car) return;
 
+  const hrs = activeBookingState.durationHours || 12;
+  const rentalAmount = (car.pricing && car.pricing[hrs]) ? car.pricing[hrs] : (car.ratePerHour * hrs);
+
   const bookingId = `FLX-${Math.floor(10000 + Math.random() * 90000)}`;
   const newBooking = {
     bookingId: bookingId,
     paymentTxnId: paymentTxnId,
     car: car,
-    pickupLocation: activeBookingState.location,
+    pickupLocation: car.locationAddress || car.locationName || activeBookingState.location,
     pickupDateTime: `${activeBookingState.pickupDate}, ${activeBookingState.pickupTime}`,
     dropoffDateTime: `${activeBookingState.dropDate}, ${activeBookingState.dropTime}`,
-    durationHours: activeBookingState.durationHours,
+    durationHours: hrs,
     hourlyRate: car.ratePerHour,
-    rentalAmount: car.ratePerHour * activeBookingState.durationHours,
-    gstTax: Math.round((car.ratePerHour * activeBookingState.durationHours) * 0.18),
+    rentalAmount: rentalAmount,
+    gstTax: Math.round(rentalAmount * 0.18),
     unlimitedKmUpgrade: activeBookingState.unlimitedKmUpgrade,
     unlimitedKmFee: activeBookingState.unlimitedKmUpgrade ? 500 : 0,
     couponDiscount: activeBookingState.couponDiscount,
