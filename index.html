@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>FlexRide - Hyderabad Self-Drive Car Rental</title>
+  <title>SS Car Rental - Hyderabad Self-Drive Cars</title>
   <!-- RemixIcons -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
@@ -12,13 +12,20 @@
 
   <div class="app-container">
     
-    <!-- App Header (FlexRide Branding) -->
+    <!-- App Header (SS Car Rental Branding) -->
     <header class="app-header">
-      <div class="brand-logo">
-        Flex<span class="brand-badge">Ride</span>
+      <div class="brand-logo" onclick="switchMainTab('home-tab')" style="cursor: pointer;">
+        <img src="images/logo.png" alt="SS Car Rental Logo" class="header-logo-img">
+        <div class="brand-text-col">
+          <span class="brand-name">SS CAR RENTAL</span>
+          <span class="brand-sub">Self Drive Cars</span>
+        </div>
       </div>
       <div class="header-actions">
-        <span class="hyd-chip">Hyderabad Only</span>
+        <span class="hyd-chip">Hyderabad</span>
+        <button class="header-login-btn" id="header-login-btn" onclick="openMobileLoginModal()">
+          <i class="ri-login-circle-line"></i> Login
+        </button>
         <button class="icon-btn" title="Notifications" onclick="showToast('No new notifications')">
           <i class="ri-notification-3-line"></i>
           <span class="notification-dot"></span>

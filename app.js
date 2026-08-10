@@ -915,7 +915,7 @@ function verifyAndExecutePayment(totalPayable) {
       "key": razorpayKey,
       "amount": totalPayable * 100, // Amount in paise
       "currency": "INR",
-      "name": "FlexRide Hyderabad",
+      "name": "SS Car Rental Hyderabad",
       "description": `Rental Booking for ${car.name}`,
       "image": car.imageUrl,
       "handler": function (response) {
@@ -924,11 +924,11 @@ function verifyAndExecutePayment(totalPayable) {
       },
       "prefill": {
         "name": "Hyderabad Customer",
-        "email": "customer@flexride.in",
+        "email": "customer@sscarrental.in",
         "contact": "9849012345"
       },
       "theme": {
-        "color": "#10B981"
+        "color": "#E5C158"
       },
       "modal": {
         "ondismiss": function() {
@@ -1107,7 +1107,7 @@ function showInvoiceModal(bookingId) {
   const b = myBookings.find(x => x.bookingId === bookingId);
   if (!b) return;
 
-  alert(`FLEXRIDE HYDERABAD INVOICE\n-----------------------------------\nBooking ID: ${b.bookingId}\nVehicle: ${b.car.name}\nPickup: ${b.pickupLocation}\nRental Amount: ₹${b.rentalAmount}\nUnlimited KM Fee: ₹${b.unlimitedKmFee}\nGrand Total Paid: ₹${b.grandTotal.toLocaleString('en-IN')}\nStatus: ${b.status}\nPayment: ${b.paymentStatus} (${b.paymentMethod})\n\nThank you for riding with FlexRide Hyderabad!`);
+  alert(`SS CAR RENTAL HYDERABAD INVOICE\n-----------------------------------\nBooking ID: ${b.bookingId}\nVehicle: ${b.car.name}\nPickup: ${b.pickupLocation}\nRental Amount: ₹${b.rentalAmount}\nUnlimited KM Fee: ₹${b.unlimitedKmFee}\nGrand Total Paid: ₹${b.grandTotal.toLocaleString('en-IN')}\nStatus: ${b.status}\nPayment: ${b.paymentStatus} (${b.paymentMethod})\n\nThank you for choosing SS Car Rental Hyderabad!`);
 }
 
 // --- ADMIN PANEL ---
@@ -1121,7 +1121,7 @@ function renderAdminPortal() {
 
   container.innerHTML = `
     <div class="admin-header">
-      <h2 style="font-size: 18px; font-weight: 800;">FlexRide Admin Portal</h2>
+      <h2 style="font-size: 18px; font-weight: 800; color: var(--accent-gold);">SS Car Rental Admin Portal</h2>
       <p style="font-size: 12px; color: var(--text-grey);">Hyderabad Fleet Availability & Booking Manager</p>
     </div>
 
