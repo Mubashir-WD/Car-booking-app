@@ -111,11 +111,11 @@ let myBookings = [
     durationHours: 8,
     hourlyRate: 100,
     rentalAmount: 800,
-    gstTax: 144,
+    gstTax: 0,
     unlimitedKmUpgrade: false,
     unlimitedKmFee: 0,
     couponDiscount: 100,
-    grandTotal: 844,
+    grandTotal: 700,
     status: 'UPCOMING',
     paymentStatus: 'PAID',
     paymentMethod: 'UPI (PhonePe)',
@@ -123,11 +123,11 @@ let myBookings = [
   }
 ];
 
-// KYC Driver State
-let driverKyc = {
-  driverName: 'John Doe',
-  dlNumber: 'TS-09-2023-88412',
-  status: 'VERIFIED'
+// User Mobile Authentication State
+let userMobileState = {
+  isLoggedIn: false,
+  mobileNumber: '',
+  userName: 'Customer'
 };
 
 // Global App States
@@ -140,11 +140,11 @@ let currentMyTripsFilter = 'UPCOMING';
 // Live Booking State
 let activeBookingState = {
   location: 'Madhapur, Hyderabad',
+  durationHours: 12,
   pickupDate: '',
   pickupTime: '',
   dropDate: '',
   dropTime: '',
-  durationHours: 12,
   unlimitedKmUpgrade: false,
   couponCode: '',
   couponDiscount: 0,
@@ -158,6 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initLocationSearch();
   renderAvailableFleet();
   renderMyTrips();
+  renderProfileTab();
+  updateHeaderAuthState();
   setupCategoryPills();
   setupSortAndSearch();
   setupNavTabs();
@@ -471,6 +473,133 @@ function setupNavTabs() {
   });
 }
 
+// --- MOBILE LOGIN & AUTHENTICATION MODULE ---
+function openMobileLoginModal() {
+  const step1 = document.getElementById('login-step-1');
+  const step2 = document.getElementById('login-step-2');
+  if (step1) step1.style.display = 'block';
+  if (step2) step2.style.display = 'none';
+
+  const input = document.getElementById('user-mobile-input');
+  if (input) input.value = userMobileState.mobileNumber || '';
+
+  document.getElementById('mobile-login-modal')?.classList.add('active');
+}
+
+function closeMobileLoginModal() {
+  document.getElementById('mobile-login-modal')?.classList.remove('active');
+}
+
+function sendMobileOtp() {
+  const val = document.getElementById('user-mobile-input')?.value.trim();
+  if (!val || val.length !== 10 || isNaN(val)) {
+    showToast('⚠️ Please enter a valid 10-digit mobile number');
+    return;
+  }
+
+  userMobileState.mobileNumber = val;
+  const step1 = document.getElementById('login-step-1');
+  const step2 = document.getElementById('login-step-2');
+  if (step1) step1.style.display = 'none';
+  if (step2) step2.style.display = 'block';
+
+  const otpInput = document.getElementById('user-otp-input');
+  if (otpInput) otpInput.value = '1234';
+
+  showToast(`📱 OTP 1234 sent to +91 ${val}`);
+}
+
+function verifyMobileOtp() {
+  const otpVal = document.getElementById('user-otp-input')?.value.trim();
+  if (otpVal !== '1234' && otpVal.length !== 4) {
+    showToast('⚠️ Please enter valid 4-digit OTP (Demo: 1234)');
+    return;
+  }
+
+  userMobileState.isLoggedIn = true;
+  closeMobileLoginModal();
+  showToast(`🎉 Logged in as +91 ${userMobileState.mobileNumber}`);
+  updateHeaderAuthState();
+  renderProfileTab();
+}
+
+function logoutMobileUser() {
+  userMobileState.isLoggedIn = false;
+  userMobileState.mobileNumber = '';
+  showToast('Logged out successfully');
+  updateHeaderAuthState();
+  renderProfileTab();
+}
+
+function updateHeaderAuthState() {
+  const btn = document.getElementById('header-login-btn');
+  if (!btn) return;
+
+  if (userMobileState.isLoggedIn) {
+    btn.innerHTML = `<i class="ri-user-3-line"></i> +91 ${userMobileState.mobileNumber.slice(0, 5)}...`;
+    btn.style.background = '#ECFDF5';
+    btn.style.color = 'var(--primary-green)';
+  } else {
+    btn.innerHTML = `<i class="ri-login-circle-line"></i> Login`;
+    btn.style.background = 'var(--light-green)';
+    btn.style.color = 'var(--primary-green)';
+  }
+}
+
+function renderProfileTab() {
+  const container = document.getElementById('profile-tab-container');
+  if (!container) return;
+
+  if (userMobileState.isLoggedIn) {
+    container.innerHTML = `
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="width: 80px; height: 80px; border-radius: 50%; background: #ECFDF5; color: var(--primary-green); display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 800; margin: 0 auto 10px; border: 3px solid var(--primary-green);">
+          <i class="ri-user-3-fill"></i>
+        </div>
+        <h2 style="font-size: 20px; font-weight: 800;">Customer Account</h2>
+        <span style="background: #ECFDF5; color: var(--primary-green); font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 20px; display: inline-block; margin-top: 6px;">
+          <i class="ri-checkbox-circle-fill"></i> Mobile Number Verified
+        </span>
+      </div>
+
+      <div class="card-box" style="background: var(--off-white); padding: 14px; border-radius: var(--radius-md); border: 1.5px solid var(--subtle-grey);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <span style="font-weight: 600; font-size: 13px;"><i class="ri-phone-line" style="color: var(--primary-green);"></i> Registered Mobile</span>
+          <strong style="color: var(--text-dark); font-size: 14px;">+91 ${userMobileState.mobileNumber}</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <span style="font-weight: 600; font-size: 13px;"><i class="ri-shield-check-line" style="color: var(--primary-green);"></i> Security Deposit</span>
+          <span style="color: var(--primary-green); font-size: 13px; font-weight: 700;">₹0 Zero Deposit</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-weight: 600; font-size: 13px;"><i class="ri-id-card-line" style="color: var(--primary-green);"></i> Driving Licence Status</span>
+          <span class="status-badge verified">VERIFIED</span>
+        </div>
+      </div>
+
+      <button class="btn-primary" style="margin-top: 18px; background: #DC2626;" onclick="logoutMobileUser()">
+        <i class="ri-logout-box-r-line"></i> Logout
+      </button>
+    `;
+  } else {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 30px 10px;">
+        <div style="width: 72px; height: 72px; background: #ECFDF5; color: var(--primary-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 34px; margin: 0 auto 14px; border: 2px solid #A7F3D0;">
+          <i class="ri-smartphone-line"></i>
+        </div>
+        <h2 style="font-size: 20px; font-weight: 800;">Login to Your Account</h2>
+        <p style="font-size: 12px; color: var(--text-grey); margin-top: 4px; max-width: 300px; margin-left: auto; margin-right: auto;">
+          Log in with your 10-digit mobile number to view bookings, download invoices, and manage trips.
+        </p>
+
+        <button class="btn-primary" style="margin-top: 20px;" onclick="openMobileLoginModal()">
+          <i class="ri-smartphone-line"></i> Login with Mobile Number
+        </button>
+      </div>
+    `;
+  }
+}
+
 function switchMainTab(tabId) {
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
   document.querySelectorAll('.tab-screen').forEach(s => s.classList.remove('active'));
@@ -482,7 +611,7 @@ function switchMainTab(tabId) {
   if (screen) screen.classList.add('active');
 
   if (tabId === 'trips-tab') renderMyTrips();
-  else if (tabId === 'admin-tab') renderAdminPortal();
+  else if (tabId === 'profile-tab') renderProfileTab();
 }
 
 // --- V2 BOOKING SUMMARY SCREEN ---
@@ -531,10 +660,9 @@ function renderV2SummaryModal() {
   const car = selectedCarForBooking;
   const hrs = activeBookingState.durationHours || 12;
   const rentalAmount = (car.pricing && car.pricing[hrs]) ? car.pricing[hrs] : (car.ratePerHour * hrs);
-  const gstTax = Math.round(rentalAmount * 0.18);
   const unlimitedKmFee = activeBookingState.unlimitedKmUpgrade ? 500 : 0;
   const discount = activeBookingState.couponDiscount || 0;
-  const grandTotal = Math.max(0, rentalAmount + gstTax + unlimitedKmFee - discount);
+  const grandTotal = Math.max(0, rentalAmount + unlimitedKmFee - discount);
 
   const container = document.getElementById('booking-summary-container');
   if (!container) return;
@@ -631,10 +759,6 @@ function renderV2SummaryModal() {
         <span>₹${rentalAmount.toLocaleString('en-IN')}</span>
       </div>
       <div class="breakdown-row">
-        <span>GST & Taxes (18%)</span>
-        <span>₹${gstTax.toLocaleString('en-IN')}</span>
-      </div>
-      <div class="breakdown-row">
         <span>Included Mileage</span>
         <span>400 KM Included</span>
       </div>
@@ -694,12 +818,11 @@ function openPaymentGatewayModal() {
 
   closeV2SummaryModal();
 
-  const hrs = activeBookingState.durationHours;
-  const rental = selectedCarForBooking.ratePerHour * hrs;
-  const gst = Math.round(rental * 0.18);
+  const hrs = activeBookingState.durationHours || 12;
+  const rental = (selectedCarForBooking.pricing && selectedCarForBooking.pricing[hrs]) ? selectedCarForBooking.pricing[hrs] : (selectedCarForBooking.ratePerHour * hrs);
   const unlimitedKmFee = activeBookingState.unlimitedKmUpgrade ? 500 : 0;
   const discount = activeBookingState.couponDiscount || 0;
-  const payable = Math.max(0, rental + gst + unlimitedKmFee - discount);
+  const payable = Math.max(0, rental + unlimitedKmFee - discount);
 
   container.innerHTML = `
     <div class="modal-sheet-header">
@@ -860,7 +983,7 @@ function executeBookingCompletion(totalPayable, paymentTxnId) {
     durationHours: hrs,
     hourlyRate: car.ratePerHour,
     rentalAmount: rentalAmount,
-    gstTax: Math.round(rentalAmount * 0.18),
+    gstTax: 0,
     unlimitedKmUpgrade: activeBookingState.unlimitedKmUpgrade,
     unlimitedKmFee: activeBookingState.unlimitedKmUpgrade ? 500 : 0,
     couponDiscount: activeBookingState.couponDiscount,
@@ -919,7 +1042,7 @@ function renderMyTrips() {
           <div><i class="ri-map-pin-2-fill" style="color: var(--primary-green);"></i> <strong>${b.pickupLocation}</strong></div>
           <div><i class="ri-calendar-line"></i> Pickup: ${b.pickupDateTime}</div>
           <div><i class="ri-calendar-event-line"></i> Drop: ${b.dropoffDateTime}</div>
-          <div><i class="ri-money-rupee-circle-line"></i> Paid: <strong>₹${b.grandTotal.toLocaleString('en-IN')}</strong> (${b.durationHours} hrs)</div>
+          <div><i class="ri-money-rupee-circle-line"></i> Total Paid: <strong>₹${b.grandTotal.toLocaleString('en-IN')}</strong> (${b.durationHours} hrs)</div>
           <div><i class="ri-speed-up-line" style="color: var(--primary-green);"></i> Mileage: ${b.unlimitedKmUpgrade ? 'Unlimited KMs' : '400 KM Included'}</div>
         </div>
       </div>
@@ -984,7 +1107,7 @@ function showInvoiceModal(bookingId) {
   const b = myBookings.find(x => x.bookingId === bookingId);
   if (!b) return;
 
-  alert(`FLEXRIDE HYDERABAD INVOICE\n-----------------------------------\nBooking ID: ${b.bookingId}\nVehicle: ${b.car.name}\nPickup: ${b.pickupLocation}\nRental Amount: ₹${b.rentalAmount}\nGST 18%: ₹${b.gstTax}\nUnlimited KM Fee: ₹${b.unlimitedKmFee}\nGrand Total Paid: ₹${b.grandTotal.toLocaleString('en-IN')}\nStatus: ${b.status}\nPayment: ${b.paymentStatus} (${b.paymentMethod})\n\nThank you for riding with FlexRide Hyderabad!`);
+  alert(`FLEXRIDE HYDERABAD INVOICE\n-----------------------------------\nBooking ID: ${b.bookingId}\nVehicle: ${b.car.name}\nPickup: ${b.pickupLocation}\nRental Amount: ₹${b.rentalAmount}\nUnlimited KM Fee: ₹${b.unlimitedKmFee}\nGrand Total Paid: ₹${b.grandTotal.toLocaleString('en-IN')}\nStatus: ${b.status}\nPayment: ${b.paymentStatus} (${b.paymentMethod})\n\nThank you for riding with FlexRide Hyderabad!`);
 }
 
 // --- ADMIN PANEL ---

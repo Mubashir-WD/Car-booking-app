@@ -146,38 +146,8 @@
 
       <!-- TAB 3: PROFILE & KYC VERIFICATION -->
       <section id="profile-tab" class="tab-screen">
-        <div class="placeholder-screen">
-          <div style="text-align: center; margin-bottom: 20px;">
-            <div style="width: 80px; height: 80px; border-radius: 50%; background: #E8F5E9; color: var(--primary-green); display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 800; margin: 0 auto 10px; border: 3px solid var(--primary-green);">
-              JD
-            </div>
-            <h2 style="font-size: 20px; font-weight: 800;">John Doe</h2>
-            <span style="background: #E8F5E9; color: var(--primary-green); font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 20px; display: inline-block; margin-top: 6px;">
-              <i class="ri-checkbox-circle-fill"></i> Hyderabad DL Verified
-            </span>
-          </div>
-
-          <div class="card-box" style="text-align: left;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-              <span style="font-weight: 600; font-size: 13px;"><i class="ri-id-card-line" style="color: var(--primary-green);"></i> Driving Licence Status</span>
-              <span class="status-badge verified">VERIFIED</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-              <span style="font-weight: 600; font-size: 13px;"><i class="ri-shield-check-line" style="color: var(--primary-green);"></i> Security Deposit</span>
-              <span style="color: var(--primary-green); font-size: 13px; font-weight: 700;">₹0 Zero Deposit</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-weight: 600; font-size: 13px;"><i class="ri-phone-line" style="color: var(--primary-green);"></i> Mobile</span>
-              <span style="color: var(--text-dark); font-size: 13px; font-weight: 700;">+91 98490 12345</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- TAB 4: ADMIN PORTAL PREVIEW -->
-      <section id="admin-tab" class="tab-screen">
-        <div class="section-padding" id="admin-dashboard-container" style="margin-top: 10px;">
-          <!-- Admin Portal injected dynamically -->
+        <div class="section-padding" id="profile-tab-container" style="margin-top: 10px;">
+          <!-- Profile injected dynamically by JS -->
         </div>
       </section>
 
@@ -197,11 +167,47 @@
         <i class="ri-user-3-line"></i>
         <span>Profile</span>
       </div>
-      <div class="nav-item" data-tab="admin-tab">
-        <i class="ri-admin-line"></i>
-        <span>Admin</span>
-      </div>
     </nav>
+
+    <!-- MOBILE LOGIN / OTP MODAL -->
+    <div class="modal-overlay" id="mobile-login-modal">
+      <div class="modal-sheet" style="padding-bottom: 24px;">
+        <div class="modal-sheet-header">
+          <div class="sheet-handle"></div>
+          <button class="modal-close-btn" onclick="closeMobileLoginModal()" title="Close Popup">
+            <i class="ri-close-line"></i>
+          </button>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 18px;">
+          <div style="width: 54px; height: 54px; background: #ECFDF5; color: var(--primary-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 10px; border: 2px solid #A7F3D0;">
+            <i class="ri-smartphone-line"></i>
+          </div>
+          <h3 class="modal-title" style="font-size: 18px; font-weight: 800;">Login with Mobile</h3>
+          <p class="modal-subtitle" style="font-size: 12px; color: var(--text-grey); margin-top: 2px;">Enter your 10-digit mobile number to verify</p>
+        </div>
+
+        <div id="login-step-1">
+          <div class="input-field-group">
+            <label style="font-size: 11px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.5px;">Mobile Number</label>
+            <div style="display: flex; gap: 8px; margin-top: 6px;">
+              <span style="height: 44px; padding: 0 12px; background: var(--off-white); border: 1.5px solid var(--subtle-grey); border-radius: var(--radius-sm); display: flex; align-items: center; font-weight: 700; font-size: 13px;">+91</span>
+              <input type="tel" id="user-mobile-input" placeholder="Enter 10-digit number" maxlength="10" style="flex:1; height: 44px; border: 1.5px solid var(--subtle-grey); border-radius: var(--radius-sm); padding: 0 12px; font-weight: 700; font-size: 14px; outline: none;">
+            </div>
+          </div>
+          <button class="btn-primary" style="margin-top: 16px;" onclick="sendMobileOtp()">Get OTP →</button>
+        </div>
+
+        <div id="login-step-2" style="display: none;">
+          <div class="input-field-group">
+            <label style="font-size: 11px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.5px;">Enter 4-Digit OTP</label>
+            <input type="text" id="user-otp-input" placeholder="1234" maxlength="4" style="width: 100%; height: 44px; border: 1.5px solid var(--subtle-grey); border-radius: var(--radius-sm); padding: 0 12px; font-size: 18px; font-weight: 800; text-align: center; letter-spacing: 6px; margin-top: 6px; outline: none;">
+            <span style="font-size: 11px; color: var(--primary-green); font-weight: 700; display: block; margin-top: 6px; text-align: center;">⚡ Demo OTP auto-filled: 1234</span>
+          </div>
+          <button class="btn-primary" style="margin-top: 16px;" onclick="verifyMobileOtp()">Verify OTP & Login</button>
+        </div>
+      </div>
+    </div>
 
     <!-- BOOKING SUMMARY SCREEN MODAL -->
     <div class="modal-overlay" id="booking-summary-modal">
