@@ -559,55 +559,182 @@ function updateHeaderAuthState() {
   }
 }
 
+// --- User KYC State & Verification Workflow ---
+let userKycState = {
+  status: 'NOT_UPLOADED', // 'NOT_UPLOADED' | 'IN_PROGRESS' | 'VERIFIED' | 'REJECTED'
+  dlPhotoUrl: '',
+  dlFileName: '',
+  aadhaarPhotoUrl: '',
+  aadhaarFileName: '',
+  submittedAt: ''
+};
+
+function handleKycFileSelect(event, docType) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    if (docType === 'DL') {
+      userKycState.dlPhotoUrl = e.target.result;
+      userKycState.dlFileName = file.name;
+    } else if (docType === 'AADHAAR') {
+      userKycState.aadhaarPhotoUrl = e.target.result;
+      userKycState.aadhaarFileName = file.name;
+    }
+    renderProfileTab();
+    showToast(`✓ Selected ${docType === 'DL' ? 'Driving Licence' : 'Aadhaar Card'} photo preview!`);
+  };
+  reader.readAsDataURL(file);
+}
+
+function submitKycForVerification() {
+  if (!userKycState.dlPhotoUrl && !userKycState.aadhaarPhotoUrl) {
+    showToast('⚠️ Please upload your Driving Licence or Aadhaar Card photo first');
+    return;
+  }
+  userKycState.status = 'IN_PROGRESS';
+  userKycState.submittedAt = new Date().toLocaleString('en-IN');
+  showToast('⏳ KYC Submitted! Status set to IN PROGRESS (Awaiting Admin Approval)');
+  renderProfileTab();
+}
+
 function renderProfileTab() {
   const container = document.getElementById('profile-tab-container');
   if (!container) return;
 
   if (userMobileState.isLoggedIn) {
+    const kycStatus = userKycState.status;
+    let kycBadgeHtml = '';
+    if (kycStatus === 'VERIFIED') {
+      kycBadgeHtml = `<span style="background: rgba(229, 193, 88, 0.2); color: var(--accent-gold); font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 8px; border: 1px solid var(--accent-gold);"><i class="ri-checkbox-circle-fill"></i> VERIFIED (Admin Approved)</span>`;
+    } else if (kycStatus === 'IN_PROGRESS') {
+      kycBadgeHtml = `<span style="background: rgba(245, 158, 11, 0.2); color: #F59E0B; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 8px; border: 1px solid #F59E0B;"><i class="ri-time-line"></i> IN PROGRESS (Awaiting Verification)</span>`;
+    } else if (kycStatus === 'REJECTED') {
+      kycBadgeHtml = `<span style="background: rgba(239, 68, 68, 0.2); color: #EF4444; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 8px; border: 1px solid #EF4444;"><i class="ri-close-circle-line"></i> REJECTED (Re-upload Clear Photo)</span>`;
+    } else {
+      kycBadgeHtml = `<span style="background: rgba(148, 163, 184, 0.2); color: #94A3B8; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 8px; border: 1px solid #94A3B8;"><i class="ri-alert-line"></i> NOT UPLOADED</span>`;
+    }
+
     container.innerHTML = `
-      <div style="text-align: center; margin-bottom: 20px;">
-        <div style="width: 80px; height: 80px; border-radius: 50%; background: #ECFDF5; color: var(--primary-green); display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 800; margin: 0 auto 10px; border: 3px solid var(--primary-green);">
+      <div style="text-align: center; margin-bottom: 16px;">
+        <div style="width: 76px; height: 76px; border-radius: 50%; background: rgba(229, 193, 88, 0.15); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 800; margin: 0 auto 8px; border: 2px solid var(--accent-gold);">
           <i class="ri-user-3-fill"></i>
         </div>
-        <h2 style="font-size: 20px; font-weight: 800;">Customer Account</h2>
-        <span style="background: #ECFDF5; color: var(--primary-green); font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 20px; display: inline-block; margin-top: 6px;">
-          <i class="ri-checkbox-circle-fill"></i> Mobile Number Verified
+        <h2 style="font-size: 19px; font-weight: 800; color: var(--text-dark);">Customer Account</h2>
+        <span style="background: rgba(229, 193, 88, 0.12); color: var(--accent-gold); font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 20px; display: inline-block; margin-top: 4px; border: 1px solid rgba(229, 193, 88, 0.3);">
+          <i class="ri-checkbox-circle-fill"></i> Mobile Verified (+91 ${userMobileState.mobileNumber})
         </span>
       </div>
 
-      <div class="card-box" style="background: var(--off-white); padding: 14px; border-radius: var(--radius-md); border: 1.5px solid var(--subtle-grey);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-          <span style="font-weight: 600; font-size: 13px;"><i class="ri-phone-line" style="color: var(--primary-green);"></i> Registered Mobile</span>
-          <strong style="color: var(--text-dark); font-size: 14px;">+91 ${userMobileState.mobileNumber}</strong>
+      <!-- Account Info Card -->
+      <div class="card-box" style="background: var(--off-white); padding: 14px; border-radius: var(--radius-md); border: 1.5px solid var(--subtle-grey); margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="font-weight: 600; font-size: 12px; color: var(--text-grey);"><i class="ri-phone-line" style="color: var(--accent-gold);"></i> Registered Mobile</span>
+          <strong style="color: var(--text-dark); font-size: 13px;">+91 ${userMobileState.mobileNumber}</strong>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-          <span style="font-weight: 600; font-size: 13px;"><i class="ri-shield-check-line" style="color: var(--primary-green);"></i> Security Deposit</span>
-          <span style="color: var(--primary-green); font-size: 13px; font-weight: 700;">₹0 Zero Deposit</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="font-weight: 600; font-size: 12px; color: var(--text-grey);"><i class="ri-shield-check-line" style="color: var(--accent-gold);"></i> Security Deposit</span>
+          <span style="color: var(--accent-gold); font-size: 12px; font-weight: 800;">₹0 Zero Deposit</span>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-weight: 600; font-size: 13px;"><i class="ri-id-card-line" style="color: var(--primary-green);"></i> Driving Licence Status</span>
-          <span class="status-badge verified">VERIFIED</span>
+          <span style="font-weight: 600; font-size: 12px; color: var(--text-grey);"><i class="ri-id-card-line" style="color: var(--accent-gold);"></i> KYC Verification Status</span>
+          ${kycBadgeHtml}
         </div>
       </div>
 
-      <button class="btn-primary" style="margin-top: 18px; background: #DC2626;" onclick="logoutMobileUser()">
+      <!-- KYC Document Upload Card -->
+      <div class="card-box" style="background: #141C2B; padding: 14px; border-radius: var(--radius-md); border: 1.5px solid rgba(229, 193, 88, 0.35); margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <h3 style="font-size: 14px; font-weight: 800; color: var(--accent-gold);">
+            <i class="ri-folder-user-line"></i> Upload KYC Documents
+          </h3>
+          <span style="font-size: 10px; color: var(--text-grey);">DL & Aadhaar Photos</span>
+        </div>
+
+        <!-- 1. Driving Licence Upload -->
+        <div style="background: #0B0F17; padding: 10px; border-radius: 10px; border: 1px solid var(--subtle-grey); margin-bottom: 10px;">
+          <label style="font-size: 11px; font-weight: 700; color: var(--text-dark); display: block; margin-bottom: 4px;">
+            <i class="ri-steering-2-line" style="color: var(--accent-gold);"></i> 1. Driving Licence (DL) Photo
+          </label>
+          <input type="file" accept="image/*" id="dl-file-input" onchange="handleKycFileSelect(event, 'DL')" style="display: none;">
+          <button type="button" class="use-gps-btn" style="width: 100%; justify-content: center; height: 34px; font-size: 11px;" onclick="document.getElementById('dl-file-input').click()">
+            <i class="ri-upload-2-line"></i> ${userKycState.dlFileName ? 'Change DL Photo (' + userKycState.dlFileName + ')' : 'Choose / Upload DL Photo'}
+          </button>
+
+          ${userKycState.dlPhotoUrl ? `
+            <div style="margin-top: 8px; text-align: center;">
+              <img src="${userKycState.dlPhotoUrl}" alt="Driving Licence Preview" style="max-height: 110px; width: auto; border-radius: 6px; border: 1px solid var(--accent-gold); object-fit: contain;">
+              <span style="display: block; font-size: 9px; color: var(--accent-gold); margin-top: 2px;">✓ DL Photo Selected</span>
+            </div>
+          ` : ''}
+        </div>
+
+        <!-- 2. Aadhaar Card Upload -->
+        <div style="background: #0B0F17; padding: 10px; border-radius: 10px; border: 1px solid var(--subtle-grey); margin-bottom: 10px;">
+          <label style="font-size: 11px; font-weight: 700; color: var(--text-dark); display: block; margin-bottom: 4px;">
+            <i class="ri-id-card-line" style="color: var(--accent-gold);"></i> 2. Aadhaar Card Photo
+          </label>
+          <input type="file" accept="image/*" id="aadhaar-file-input" onchange="handleKycFileSelect(event, 'AADHAAR')" style="display: none;">
+          <button type="button" class="use-gps-btn" style="width: 100%; justify-content: center; height: 34px; font-size: 11px;" onclick="document.getElementById('aadhaar-file-input').click()">
+            <i class="ri-upload-2-line"></i> ${userKycState.aadhaarFileName ? 'Change Aadhaar Photo (' + userKycState.aadhaarFileName + ')' : 'Choose / Upload Aadhaar Photo'}
+          </button>
+
+          ${userKycState.aadhaarPhotoUrl ? `
+            <div style="margin-top: 8px; text-align: center;">
+              <img src="${userKycState.aadhaarPhotoUrl}" alt="Aadhaar Card Preview" style="max-height: 110px; width: auto; border-radius: 6px; border: 1px solid var(--accent-gold); object-fit: contain;">
+              <span style="display: block; font-size: 9px; color: var(--accent-gold); margin-top: 2px;">✓ Aadhaar Photo Selected</span>
+            </div>
+          ` : ''}
+        </div>
+
+        ${kycStatus === 'VERIFIED' ? `
+          <div style="text-align: center; padding: 8px; background: rgba(229, 193, 88, 0.12); border-radius: 8px; border: 1px solid var(--accent-gold); margin-top: 8px;">
+            <p style="color: var(--accent-gold); font-size: 11px; font-weight: 800;">✓ Your KYC documents are verified by Admin! Ready to ride.</p>
+          </div>
+        ` : (kycStatus === 'IN_PROGRESS' ? `
+          <div style="text-align: center; padding: 8px; background: rgba(245, 158, 11, 0.12); border-radius: 8px; border: 1px solid #F59E0B; margin-top: 8px;">
+            <p style="color: #F59E0B; font-size: 11px; font-weight: 800;">⏳ Status: IN PROGRESS (Awaiting Admin Review in Admin Portal)</p>
+          </div>
+        ` : `
+          <button class="btn-primary" style="margin-top: 8px;" onclick="submitKycForVerification()">
+            <i class="ri-send-plane-line"></i> Submit KYC for Admin Verification
+          </button>
+        `)}
+      </div>
+
+      <button class="btn-primary" style="background: rgba(239, 68, 68, 0.15); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.4); margin-bottom: 12px;" onclick="logoutMobileUser()">
         <i class="ri-logout-box-r-line"></i> Logout
       </button>
+
+      <!-- Admin Portal Access Link -->
+      <div style="text-align: center; padding-top: 8px; border-top: 1px dashed var(--subtle-grey);">
+        <button style="background: none; border: none; color: var(--accent-gold); font-size: 11px; font-weight: 700; cursor: pointer; text-decoration: underline;" onclick="switchMainTab('admin-tab')">
+          🔑 Switch to Admin Portal (Fleet & KYC Management)
+        </button>
+        <div style="font-size: 9px; color: var(--text-grey); margin-top: 2px;">Direct URL Route: <code>#admin</code></div>
+      </div>
     `;
   } else {
     container.innerHTML = `
       <div style="text-align: center; padding: 30px 10px;">
-        <div style="width: 72px; height: 72px; background: #ECFDF5; color: var(--primary-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 34px; margin: 0 auto 14px; border: 2px solid #A7F3D0;">
+        <div style="width: 72px; height: 72px; background: rgba(229, 193, 88, 0.12); color: var(--accent-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 34px; margin: 0 auto 14px; border: 2px solid rgba(229, 193, 88, 0.4);">
           <i class="ri-smartphone-line"></i>
         </div>
-        <h2 style="font-size: 20px; font-weight: 800;">Login to Your Account</h2>
+        <h2 style="font-size: 20px; font-weight: 800; color: var(--text-dark);">Login to Your Account</h2>
         <p style="font-size: 12px; color: var(--text-grey); margin-top: 4px; max-width: 300px; margin-left: auto; margin-right: auto;">
-          Log in with your 10-digit mobile number to view bookings, download invoices, and manage trips.
+          Log in with your 10-digit mobile number to view bookings, upload KYC documents, and manage trips.
         </p>
 
         <button class="btn-primary" style="margin-top: 20px;" onclick="openMobileLoginModal()">
           <i class="ri-smartphone-line"></i> Login with Mobile Number
         </button>
+
+        <div style="margin-top: 24px; text-align: center;">
+          <button style="background: none; border: none; color: var(--accent-gold); font-size: 11px; font-weight: 700; cursor: pointer; text-decoration: underline;" onclick="switchMainTab('admin-tab')">
+            🔑 Switch to Admin Portal (Fleet & KYC Management)
+          </button>
+        </div>
       </div>
     `;
   }
@@ -625,7 +752,18 @@ function switchMainTab(tabId) {
 
   if (tabId === 'trips-tab') renderMyTrips();
   else if (tabId === 'profile-tab') renderProfileTab();
+  else if (tabId === 'admin-tab') renderAdminPortal();
 }
+
+function checkUrlHashRoute() {
+  const hash = window.location.hash.toLowerCase();
+  if (hash === '#admin' || hash === '#admin-portal') {
+    switchMainTab('admin-tab');
+  }
+}
+
+window.addEventListener('hashchange', checkUrlHashRoute);
+window.addEventListener('DOMContentLoaded', checkUrlHashRoute);
 
 // --- V2 BOOKING SUMMARY SCREEN ---
 function openV2BookingSummary(carId) {
@@ -1201,18 +1339,59 @@ function renderAdminPortal() {
       </div>
     </div>
 
-    <div style="margin-top: 18px; background: var(--off-white); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--subtle-grey);">
-      <h3 style="font-size: 14px; font-weight: 800;">Customer KYC Approval Queue</h3>
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-        <div>
-          <div style="font-weight: 700; font-size: 13px;">${driverKyc.driverName}</div>
-          <div style="font-size: 11px; color: var(--text-grey);">DL: ${driverKyc.dlNumber}</div>
-        </div>
-        <span class="status-badge ${driverKyc.status.toLowerCase()}">${driverKyc.status}</span>
+    <div style="margin-top: 18px; background: #141C2B; padding: 14px; border-radius: var(--radius-md); border: 1.5px solid rgba(229, 193, 88, 0.35);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <h3 style="font-size: 14px; font-weight: 800; color: var(--accent-gold);">
+          <i class="ri-shield-user-line"></i> Customer KYC Verification Queue
+        </h3>
+        <span class="status-badge ${userKycState.status.toLowerCase()}" style="font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 6px;">
+          ${userKycState.status}
+        </span>
       </div>
-      <div style="display: flex; gap: 8px; margin-top: 10px;">
-        <button class="btn-primary" style="height: 32px; font-size: 11px;" onclick="updateKycStatus('VERIFIED')">Approve DL</button>
-        <button class="btn-primary" style="height: 32px; font-size: 11px; background: #DC2626;" onclick="updateKycStatus('REJECTED')">Reject DL</button>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 12px;">
+        <div>
+          <span style="color: var(--text-grey);">Customer Mobile:</span>
+          <strong style="color: var(--text-dark);">+91 ${userMobileState.mobileNumber || '9573314417'}</strong>
+        </div>
+        <span style="font-size: 10px; color: var(--text-grey);">${userKycState.submittedAt || 'Recent Upload'}</span>
+      </div>
+
+      <!-- Uploaded Document Photo Previews for Admin -->
+      <div style="display: flex; gap: 10px; margin-top: 12px;">
+        <div style="flex: 1; background: #0B0F17; padding: 8px; border-radius: 8px; border: 1px solid var(--subtle-grey); text-align: center;">
+          <span style="font-size: 10px; font-weight: 700; color: var(--accent-gold); display: block; margin-bottom: 4px;">Driving Licence (DL)</span>
+          ${userKycState.dlPhotoUrl ? `
+            <img src="${userKycState.dlPhotoUrl}" alt="Customer DL Photo" style="width: 100%; height: 75px; object-fit: contain; border-radius: 4px; border: 1px solid var(--subtle-grey);">
+            <span style="font-size: 9px; color: var(--accent-gold); margin-top: 2px; display: block;">✓ DL Uploaded</span>
+          ` : `
+            <div style="height: 75px; display: flex; align-items: center; justify-content: center; color: var(--text-grey); font-size: 10px; background: rgba(255,255,255,0.03); border-radius: 4px;">
+              <i class="ri-image-line" style="font-size: 20px;"></i> No DL Photo
+            </div>
+          `}
+        </div>
+
+        <div style="flex: 1; background: #0B0F17; padding: 8px; border-radius: 8px; border: 1px solid var(--subtle-grey); text-align: center;">
+          <span style="font-size: 10px; font-weight: 700; color: var(--accent-gold); display: block; margin-bottom: 4px;">Aadhaar Card</span>
+          ${userKycState.aadhaarPhotoUrl ? `
+            <img src="${userKycState.aadhaarPhotoUrl}" alt="Customer Aadhaar Photo" style="width: 100%; height: 75px; object-fit: contain; border-radius: 4px; border: 1px solid var(--subtle-grey);">
+            <span style="font-size: 9px; color: var(--accent-gold); margin-top: 2px; display: block;">✓ Aadhaar Uploaded</span>
+          ` : `
+            <div style="height: 75px; display: flex; align-items: center; justify-content: center; color: var(--text-grey); font-size: 10px; background: rgba(255,255,255,0.03); border-radius: 4px;">
+              <i class="ri-image-line" style="font-size: 20px;"></i> No Aadhaar Photo
+            </div>
+          `}
+        </div>
+      </div>
+
+      <!-- Action buttons for Admin to Approve or Reject -->
+      <div style="display: flex; gap: 8px; margin-top: 14px;">
+        <button class="btn-primary" style="height: 38px; font-size: 12px; flex: 1;" onclick="updateKycStatus('VERIFIED')">
+          <i class="ri-checkbox-circle-line"></i> Approve & Mark Verified
+        </button>
+        <button class="btn-primary" style="height: 38px; font-size: 12px; flex: 1; background: rgba(239, 68, 68, 0.2); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.4);" onclick="updateKycStatus('REJECTED')">
+          <i class="ri-close-circle-line"></i> Reject Documents
+        </button>
       </div>
     </div>
   `;
@@ -1229,9 +1408,16 @@ function changeCarStatus(carId, newStatus) {
 }
 
 function updateKycStatus(status) {
-  driverKyc.status = status;
-  showToast(`KYC Status updated to ${status}`);
+  userKycState.status = status;
+  if (status === 'VERIFIED') {
+    showToast('✓ KYC Approved! Customer profile updated to VERIFIED');
+  } else if (status === 'REJECTED') {
+    showToast('✕ KYC Rejected! Customer notified to re-upload clear photos');
+  } else {
+    showToast(`KYC Status updated to ${status}`);
+  }
   renderAdminPortal();
+  renderProfileTab();
 }
 
 function showToast(msg) {
