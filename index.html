@@ -23,6 +23,9 @@
       </div>
       <div class="header-actions">
         <span class="hyd-chip">Hyderabad</span>
+        <a href="https://wa.me/919849012345" target="_blank" class="icon-btn whatsapp-btn" title="Chat on WhatsApp">
+          <i class="ri-whatsapp-line" style="color: #25D366; font-size: 19px;"></i>
+        </a>
         <button class="header-login-btn" id="header-login-btn" onclick="openMobileLoginModal()">
           <i class="ri-login-circle-line"></i> Login
         </button>
@@ -38,6 +41,71 @@
       
       <!-- TAB 1: EXPLORE CARS (HOME) -->
       <section id="home-tab" class="tab-screen active">
+
+        <!-- HERO PROMO CAROUSEL BANNER (Matching Client Screenshot) -->
+        <div class="section-padding" style="margin-top: 6px;">
+          <div class="hero-banner-card">
+            <div class="promo-badge-tag">UNLIMITED KILOMETERS</div>
+            <h2 class="hero-banner-title">Ab Manzil Ki Tension Chhodo!</h2>
+            <p class="hero-banner-sub">Premium Cars at Unbeatable Rates • Budget Friendly</p>
+            <div class="hero-banner-car-wrapper">
+              <img src="images/skoda_1.jpg" alt="Featured Skoda Rapid" id="hero-carousel-img">
+            </div>
+            <div class="hero-banner-dots">
+              <span class="dot active" onclick="setHeroBannerSlide(0)"></span>
+              <span class="dot" onclick="setHeroBannerSlide(1)"></span>
+              <span class="dot" onclick="setHeroBannerSlide(2)"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUICK BOOK A CAR CALLOUT CARD (Matching Client Screenshot) -->
+        <div class="section-padding" style="margin-top: 12px;">
+          <div class="book-now-callout-card">
+            <div class="callout-left">
+              <div class="callout-icon-box">
+                <i class="ri-car-fill"></i>
+              </div>
+              <div class="callout-text">
+                <h3>Book a Car Now</h3>
+                <p>Start your journey with us in Hyderabad</p>
+              </div>
+            </div>
+            <button class="callout-btn" onclick="scrollToFleetCatalog()">
+              Get Started <i class="ri-arrow-right-line"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- WHY CHOOSE SS CAR RENTAL SECTION (Matching Client Screenshot) -->
+        <div class="section-padding" style="margin-top: 14px;">
+          <h3 class="why-choose-header-title">Why Choose SS Car Rental?</h3>
+          <div class="why-choose-banner-card">
+            <h4>Drive Your Dreams, Rent with Ease</h4>
+          </div>
+          <div class="why-choose-grid">
+            <div class="why-card-item">
+              <div class="why-icon-circle"><i class="ri-wallet-3-line"></i></div>
+              <h5>Zero Deposit</h5>
+              <p>No hidden holds</p>
+            </div>
+            <div class="why-card-item">
+              <div class="why-icon-circle"><i class="ri-key-2-line"></i></div>
+              <h5>Keyless Unlock</h5>
+              <p>Instant access</p>
+            </div>
+            <div class="why-card-item">
+              <div class="why-icon-circle"><i class="ri-map-pin-2-line"></i></div>
+              <h5>3 Pickup Hubs</h5>
+              <p>Tolichowki, Madhapur & Gachibowli</p>
+            </div>
+            <div class="why-card-item">
+              <div class="why-icon-circle"><i class="ri-speed-up-line"></i></div>
+              <h5>Unlimited KMs</h5>
+              <p>Drive limits-free</p>
+            </div>
+          </div>
+        </div>
         
         <!-- Hyderabad Location Search Box (Places Autocomplete + GPS) -->
         <div class="section-padding" style="margin-top: 6px;">

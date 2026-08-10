@@ -27,7 +27,7 @@ const HYDERABAD_PLACES = [
   'RGIA Airport, Hyderabad'
 ];
 
-// --- FlexRide Vehicle Database ---
+// --- SS Car Rental Vehicle Database ---
 let carsData = [
   {
     id: 'car_i10',
@@ -42,10 +42,14 @@ let carsData = [
     tripsCount: 142,
     status: 'Available',
     currentLocality: 'Tolichowki, Hyderabad',
-    locationName: 'Tolichowki Hub (Grand i10 Location)',
+    locationName: 'Tolichowki Pickup Hub',
     locationAddress: 'Tolichowki X Road, Tolichowki, Hyderabad',
-    mapUrl: 'https://maps.google.com/?q=Tolichowki+X+Road+Hyderabad',
-    imageUrl: 'images/grand_i10.jpg',
+    mapUrl: 'https://maps.app.goo.gl/vKUQeUyYNSDfC42s7',
+    imageUrl: 'images/grand_i10_1.jpg',
+    images: [
+      'images/grand_i10_1.jpg',
+      'images/grand_i10_2.jpg'
+    ],
     pricing: {
       8: 800,
       12: 1000,
@@ -65,10 +69,15 @@ let carsData = [
     tripsCount: 98,
     status: 'Available',
     currentLocality: 'Madhapur, Hyderabad',
-    locationName: 'Madhapur Hub (Renault Kwid Location)',
+    locationName: 'Madhapur Pickup Hub',
     locationAddress: 'Madhapur Metro Station, Madhapur, Hyderabad',
-    mapUrl: 'https://maps.google.com/?q=Madhapur+Metro+Station+Hyderabad',
-    imageUrl: 'images/renault_kwid.jpg',
+    mapUrl: 'https://maps.app.goo.gl/7FhE3jtspgQ1g3NS9?g_st=aw',
+    imageUrl: 'images/renault_kwid_1.jpg',
+    images: [
+      'images/renault_kwid_1.jpg',
+      'images/renault_kwid_2.jpg',
+      'images/renault_kwid_3.jpg'
+    ],
     pricing: {
       8: 600,
       12: 800,
@@ -88,10 +97,14 @@ let carsData = [
     tripsCount: 176,
     status: 'Available',
     currentLocality: 'Gachibowli, Hyderabad',
-    locationName: 'Gachibowli Hub (Skoda Location)',
+    locationName: 'Gachibowli Pickup Hub',
     locationAddress: 'DLF Cybercity Road, Gachibowli, Hyderabad',
-    mapUrl: 'https://maps.google.com/?q=DLF+Cybercity+Gachibowli+Hyderabad',
-    imageUrl: 'images/skoda.jpg',
+    mapUrl: 'https://maps.app.goo.gl/7FhE3jtspgQ1g3NS9?g_st=aw',
+    imageUrl: 'images/skoda_1.jpg',
+    images: [
+      'images/skoda_1.jpg',
+      'images/skoda_2.jpg'
+    ],
     pricing: {
       8: 1200,
       12: 1600,
@@ -677,16 +690,36 @@ function renderV2SummaryModal() {
 
     <div class="summary-header">
       <h3>Booking Summary</h3>
-      <p style="font-size: 12px; color: var(--text-grey);">Review vehicle details & price breakdown</p>
+      <p style="font-size: 12px; color: var(--text-grey);">Review vehicle details & multi-angle photos</p>
     </div>
 
     <div class="summary-car-card">
-      <img src="${car.imageUrl}" alt="${car.name}">
-      <div>
-        <h4 style="font-size: 15px; font-weight: 800; color: var(--text-dark);">${car.name}</h4>
+      <div style="flex: 1;">
+        <h4 style="font-size: 16px; font-weight: 800; color: var(--text-dark);">${car.name}</h4>
         <p style="font-size: 11px; color: var(--text-grey);">${car.brand} • ${car.fuelType} • ${car.transmission} • ${car.seatingCapacity} Seats</p>
-        <span style="color: var(--primary-green); font-weight: 800; font-size: 13px;">₹${rentalAmount.toLocaleString('en-IN')} / ${hrs} hours</span>
+        <span style="color: var(--accent-gold); font-weight: 800; font-size: 14px;">₹${rentalAmount.toLocaleString('en-IN')} / ${hrs} hours package</span>
       </div>
+    </div>
+
+    <!-- Multi-Angle Car Photo Carousel -->
+    <div class="summary-gallery-container">
+      <label style="font-size: 10px; font-weight: 800; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;">
+        <i class="ri-camera-lens-line"></i> Vehicle Multi-Angle Photos (${car.images ? car.images.length : 1} Angles)
+      </label>
+      <div class="summary-gallery-viewer">
+        <img id="summary-car-main-img" src="${(car.images && car.images[0]) || car.imageUrl}" alt="${car.name}">
+        <span class="angle-badge" id="summary-angle-badge">Tap thumbnail to change view</span>
+      </div>
+      ${car.images && car.images.length > 1 ? `
+        <div class="summary-gallery-thumbs">
+          ${car.images.map((imgUrl, idx) => `
+            <div class="summary-angle-thumb ${idx === 0 ? 'active' : ''}" onclick="switchSummaryCarImage(${idx}, '${car.id}')">
+              <img src="${imgUrl}" alt="${car.name} Angle ${idx + 1}">
+              <span>${idx === 0 ? 'Front' : (idx === 1 && car.images.length === 2 ? 'Rear' : (idx === 1 ? 'Side' : 'Rear'))}</span>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
     </div>
 
     <!-- Duration Package Selector -->
@@ -1212,3 +1245,53 @@ function showToast(msg) {
     toastEl.classList.remove('show');
   }, 3200);
 }
+
+// --- HELPER FUNCTIONS FOR REDESIGNED HOME SCREEN & GALLERY ---
+
+function switchSummaryCarImage(index, carId) {
+  const car = carsData.find(c => c.id === carId) || selectedCarForBooking;
+  if (!car || !car.images) return;
+  const mainImg = document.getElementById('summary-car-main-img');
+  if (mainImg) mainImg.src = car.images[index];
+  
+  document.querySelectorAll('.summary-angle-thumb').forEach((thumb, i) => {
+    if (i === index) thumb.classList.add('active');
+    else thumb.classList.remove('active');
+  });
+}
+
+function scrollToFleetCatalog() {
+  const fleetSection = document.getElementById('fleet-list-container');
+  if (fleetSection) {
+    fleetSection.scrollIntoView({ behavior: 'smooth' });
+  } else {
+    switchMainTab('home-tab');
+  }
+}
+
+const heroSlides = [
+  { img: 'images/skoda_1.jpg', title: 'Ab Manzil Ki Tension Chhodo!', badge: 'UNLIMITED KILOMETERS' },
+  { img: 'images/grand_i10_1.jpg', title: 'Drive Clean & Premium Hatchbacks', badge: 'HYDERABAD HUBS' },
+  { img: 'images/renault_kwid_1.jpg', title: 'Affordable Rates Starting @ ₹75/hr', badge: 'ZERO DEPOSIT' }
+];
+
+let currentHeroSlideIndex = 0;
+
+function setHeroBannerSlide(index) {
+  currentHeroSlideIndex = index;
+  const slide = heroSlides[index];
+  const imgEl = document.getElementById('hero-carousel-img');
+  if (imgEl && slide) {
+    imgEl.src = slide.img;
+  }
+  document.querySelectorAll('.hero-banner-dots .dot').forEach((dot, idx) => {
+    if (idx === index) dot.classList.add('active');
+    else dot.classList.remove('active');
+  });
+}
+
+// Auto-rotate hero slider every 4.5 seconds
+setInterval(() => {
+  const nextSlide = (currentHeroSlideIndex + 1) % heroSlides.length;
+  setHeroBannerSlide(nextSlide);
+}, 4500);

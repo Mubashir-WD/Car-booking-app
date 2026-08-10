@@ -741,3 +741,269 @@ body {
 
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .toast i { color: var(--accent-gold); }
+
+/* --- HOME SCREEN REDESIGN STYLES (Matching Client Screenshot) --- */
+
+/* Hero Banner Card */
+.hero-banner-card {
+  background: linear-gradient(180deg, #1A2333 0%, #0B0F17 100%);
+  border: 1.5px solid rgba(229, 193, 88, 0.35);
+  border-radius: 20px;
+  padding: 16px 16px 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.promo-badge-tag {
+  position: absolute;
+  top: 12px; right: 12px;
+  background: #E5C158;
+  color: #0B0F17;
+  font-size: 9px;
+  font-weight: 900;
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(229, 193, 88, 0.4);
+  z-index: 2;
+}
+
+.hero-banner-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--accent-gold);
+  line-height: 1.2;
+}
+
+.hero-banner-sub {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-grey);
+  margin-top: 4px;
+}
+
+.hero-banner-car-wrapper {
+  margin-top: 12px;
+  height: 140px;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--subtle-grey);
+}
+
+.hero-banner-car-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition);
+}
+
+.hero-banner-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.hero-banner-dots .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(229, 193, 88, 0.3);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.hero-banner-dots .dot.active {
+  width: 20px;
+  border-radius: 10px;
+  background: var(--accent-gold);
+}
+
+/* Quick Book Now Callout Card (Redesigned like Client Screenshot) */
+.book-now-callout-card {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+  border-radius: 20px;
+  padding: 16px;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3);
+}
+
+.callout-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.callout-icon-box {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.25);
+  display: flex; justify-content: center; align-items: center;
+  font-size: 22px;
+  color: #FFFFFF;
+  backdrop-filter: blur(4px);
+}
+
+.callout-text h3 {
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.callout-text p {
+  font-size: 11px;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.callout-btn {
+  width: 100%;
+  height: 42px;
+  background: #FFFFFF;
+  color: #DC2626;
+  border: none;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex; justify-content: center; align-items: center; gap: 6px;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.callout-btn:active { transform: scale(0.98); }
+
+/* Why Choose SS Car Rental Section */
+.why-choose-header-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.why-choose-banner-card {
+  background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+  border-radius: 14px;
+  padding: 14px;
+  text-align: center;
+  color: #FFFFFF;
+  margin-bottom: 10px;
+  box-shadow: 0 6px 18px rgba(2, 132, 199, 0.25);
+}
+
+.why-choose-banner-card h4 {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.why-choose-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.why-card-item {
+  background: var(--off-white);
+  border: 1px solid var(--subtle-grey);
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.why-icon-circle {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(229, 193, 88, 0.15);
+  color: var(--accent-gold);
+  display: flex; justify-content: center; align-items: center;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.why-card-item h5 {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.why-card-item p {
+  font-size: 10px;
+  color: var(--text-grey);
+  margin-top: 2px;
+}
+
+/* Multi-Angle Photo Gallery in Summary Modal */
+.summary-gallery-container {
+  margin-bottom: 12px;
+}
+
+.summary-gallery-viewer {
+  position: relative;
+  height: 180px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1.5px solid var(--subtle-grey);
+  background: #0B0F17;
+}
+
+.summary-gallery-viewer img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.angle-badge {
+  position: absolute;
+  bottom: 8px; right: 8px;
+  background: rgba(11, 15, 23, 0.85);
+  color: var(--accent-gold);
+  font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 10px;
+  border: 1px solid rgba(229, 193, 88, 0.3);
+}
+
+.summary-gallery-thumbs {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.summary-angle-thumb {
+  flex: 1;
+  height: 52px;
+  border-radius: 8px;
+  border: 1.5px solid var(--subtle-grey);
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: var(--transition);
+  background: #0B0F17;
+}
+
+.summary-angle-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.summary-angle-thumb span {
+  position: absolute;
+  bottom: 2px; left: 0; right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: #FFFFFF;
+  font-size: 8px; font-weight: 700;
+  text-align: center;
+}
+
+.summary-angle-thumb.active {
+  opacity: 1;
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 8px rgba(229, 193, 88, 0.4);
+}
+
