@@ -1096,7 +1096,7 @@ function verifyAndExecutePayment(totalPayable) {
       "prefill": {
         "name": "Hyderabad Customer",
         "email": "customer@sscarrental.in",
-        "contact": "9849012345"
+        "contact": "9866355123"
       },
       "theme": {
         "color": "#E5C158"
