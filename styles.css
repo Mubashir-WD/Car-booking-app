@@ -1073,3 +1073,83 @@ html, body {
   box-shadow: 0 0 8px rgba(229, 193, 88, 0.4);
 }
 
+/* --- RESPONSIVE MEDIA QUERIES FOR ALL USER DEVICES --- */
+
+/* Dynamic Viewport Height Support for Mobile Browsers */
+@supports (height: 100dvh) {
+  .app-container {
+    height: 100dvh;
+    max-height: 100dvh;
+  }
+  @media (min-width: 481px) {
+    .app-container {
+      height: 94dvh;
+      max-height: 920px;
+    }
+  }
+}
+
+/* Compact Mobile Devices (e.g. iPhone SE, Galaxy S8, width <= 380px) */
+@media (max-width: 380px) {
+  .section-padding {
+    padding: 0 10px;
+  }
+  .fleet-list {
+    padding: 0 10px;
+    gap: 10px;
+  }
+  .fleet-card {
+    padding: 10px 8px;
+    gap: 8px;
+  }
+  .fleet-card-img {
+    width: 90px;
+    height: 82px;
+  }
+  .car-title {
+    font-size: 13px;
+  }
+  .car-specs-row {
+    font-size: 10px;
+    gap: 5px;
+  }
+  .car-rate {
+    font-size: 14px;
+  }
+  .book-now-btn {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+  .app-header {
+    padding: 10px 12px;
+  }
+  .brand-name {
+    font-size: 13px;
+  }
+  .brand-sub {
+    font-size: 7px;
+  }
+  .hyd-chip {
+    font-size: 9px;
+    padding: 2px 7px;
+  }
+  .header-login-btn {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+  .hero-banner-title {
+    font-size: 16px;
+  }
+  .callout-text h3 {
+    font-size: 15px;
+  }
+  .duration-btn {
+    font-size: 10px;
+    padding: 6px 2px;
+  }
+  .modal-sheet {
+    padding: 14px 14px 20px 14px;
+  }
+}
+
+
