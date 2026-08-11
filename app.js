@@ -349,8 +349,8 @@ function validateSearchDateTime() {
   const diffMs = dropDateTime - pickDateTime;
   const diffHours = Math.round(diffMs / (1000 * 60 * 60));
 
-  if (diffHours < 12) {
-    showToast('⚠️ Minimum booking duration is 12 hours.');
+  if (diffHours < 8) {
+    showToast('⚠️ Minimum booking duration is 8 hours.');
     return false;
   }
 
@@ -750,6 +750,9 @@ function switchMainTab(tabId) {
   if (nav) nav.classList.add('active');
   if (screen) screen.classList.add('active');
 
+  const mainContent = document.querySelector('.main-content');
+  if (mainContent) mainContent.scrollTop = 0;
+
   if (tabId === 'trips-tab') renderMyTrips();
   else if (tabId === 'profile-tab') renderProfileTab();
   else if (tabId === 'admin-tab') renderAdminPortal();
@@ -817,6 +820,7 @@ function renderV2SummaryModal() {
 
   const container = document.getElementById('booking-summary-container');
   if (!container) return;
+  container.scrollTop = 0;
 
   container.innerHTML = `
     <div class="modal-sheet-header">
@@ -988,6 +992,7 @@ function openPaymentGatewayModal() {
   if (!container || !selectedCarForBooking) return;
 
   closeV2SummaryModal();
+  container.scrollTop = 0;
 
   const hrs = activeBookingState.durationHours || 12;
   const rental = (selectedCarForBooking.pricing && selectedCarForBooking.pricing[hrs]) ? selectedCarForBooking.pricing[hrs] : (selectedCarForBooking.ratePerHour * hrs);
@@ -1447,11 +1452,18 @@ function switchSummaryCarImage(index, carId) {
 }
 
 function scrollToFleetCatalog() {
-  const fleetSection = document.getElementById('fleet-list-container');
-  if (fleetSection) {
-    fleetSection.scrollIntoView({ behavior: 'smooth' });
-  } else {
-    switchMainTab('home-tab');
+  switchMainTab('home-tab');
+  const mainContent = document.querySelector('.main-content');
+  const locationCard = document.getElementById('location-focus-card') || document.querySelector('.location-search-card');
+  
+  if (mainContent && locationCard) {
+    const targetY = Math.max(0, locationCard.offsetTop - 12);
+    mainContent.scrollTo({ top: targetY, behavior: 'smooth' });
+
+    locationCard.classList.add('slide-focus-active');
+    setTimeout(() => {
+      locationCard.classList.remove('slide-focus-active');
+    }, 1200);
   }
 }
 
@@ -1467,9 +1479,13 @@ function setHeroBannerSlide(index) {
   currentHeroSlideIndex = index;
   const slide = heroSlides[index];
   const imgEl = document.getElementById('hero-carousel-img');
-  if (imgEl && slide) {
-    imgEl.src = slide.img;
-  }
+  const titleEl = document.querySelector('.hero-banner-title');
+  const badgeEl = document.querySelector('.promo-badge-tag');
+
+  if (imgEl && slide) imgEl.src = slide.img;
+  if (titleEl && slide) titleEl.textContent = slide.title;
+  if (badgeEl && slide) badgeEl.textContent = slide.badge;
+
   document.querySelectorAll('.hero-banner-dots .dot').forEach((dot, idx) => {
     if (idx === index) dot.classList.add('active');
     else dot.classList.remove('active');

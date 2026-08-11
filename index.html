@@ -44,14 +44,14 @@
 
         <!-- HERO PROMO CAROUSEL BANNER (Matching Client Screenshot) -->
         <div class="section-padding" style="margin-top: 6px;">
-          <div class="hero-banner-card">
+          <div class="hero-banner-card" onclick="scrollToFleetCatalog()" style="cursor: pointer;">
             <div class="promo-badge-tag">UNLIMITED KILOMETERS</div>
             <h2 class="hero-banner-title">Ab Manzil Ki Tension Chhodo!</h2>
             <p class="hero-banner-sub">Premium Cars at Unbeatable Rates • Budget Friendly</p>
             <div class="hero-banner-car-wrapper">
               <img src="images/skoda_1.jpg" alt="Featured Skoda Rapid" id="hero-carousel-img">
             </div>
-            <div class="hero-banner-dots">
+            <div class="hero-banner-dots" onclick="event.stopPropagation()">
               <span class="dot active" onclick="setHeroBannerSlide(0)"></span>
               <span class="dot" onclick="setHeroBannerSlide(1)"></span>
               <span class="dot" onclick="setHeroBannerSlide(2)"></span>
@@ -76,40 +76,10 @@
             </button>
           </div>
         </div>
-
-        <!-- WHY CHOOSE SS CAR RENTAL SECTION (Matching Client Screenshot) -->
-        <div class="section-padding" style="margin-top: 14px;">
-          <h3 class="why-choose-header-title">Why Choose SS Car Rental?</h3>
-          <div class="why-choose-banner-card">
-            <h4>Drive Your Dreams, Rent with Ease</h4>
-          </div>
-          <div class="why-choose-grid">
-            <div class="why-card-item">
-              <div class="why-icon-circle"><i class="ri-wallet-3-line"></i></div>
-              <h5>Zero Deposit</h5>
-              <p>No hidden holds</p>
-            </div>
-            <div class="why-card-item">
-              <div class="why-icon-circle"><i class="ri-key-2-line"></i></div>
-              <h5>Keyless Unlock</h5>
-              <p>Instant access</p>
-            </div>
-            <div class="why-card-item">
-              <div class="why-icon-circle"><i class="ri-map-pin-2-line"></i></div>
-              <h5>3 Pickup Hubs</h5>
-              <p>Tolichowki, Madhapur & Gachibowli</p>
-            </div>
-            <div class="why-card-item">
-              <div class="why-icon-circle"><i class="ri-speed-up-line"></i></div>
-              <h5>Unlimited KMs</h5>
-              <p>Drive limits-free</p>
-            </div>
-          </div>
-        </div>
         
         <!-- Hyderabad Location Search Box (Places Autocomplete + GPS) -->
-        <div class="section-padding" style="margin-top: 6px;">
-          <div class="location-search-card">
+        <div class="section-padding" style="margin-top: 10px;">
+          <div class="location-search-card" id="location-focus-card">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <label style="font-size: 11px; font-weight: 800; color: var(--primary-green); text-transform: uppercase; letter-spacing: 0.5px;">
                 <i class="ri-map-pin-2-fill"></i> Pickup Location in Hyderabad
@@ -197,6 +167,36 @@
         <!-- Available Vehicles Container -->
         <div class="fleet-list" id="fleet-list-container">
           <!-- Dynamically injected by JS -->
+        </div>
+
+        <!-- WHY CHOOSE SS CAR RENTAL SECTION (Trust Badges) -->
+        <div class="section-padding" style="margin-top: 20px; margin-bottom: 12px;">
+          <h3 class="why-choose-header-title">Why Choose SS Car Rental?</h3>
+          <div class="why-choose-banner-card">
+            <h4>Drive Your Dreams, Rent with Ease</h4>
+          </div>
+          <div class="why-choose-grid">
+            <div class="why-card-item">
+              <div class="why-icon-circle"><i class="ri-wallet-3-line"></i></div>
+              <h5>Zero Deposit</h5>
+              <p>No hidden holds</p>
+            </div>
+            <div class="why-card-item">
+              <div class="why-icon-circle"><i class="ri-key-2-line"></i></div>
+              <h5>Keyless Unlock</h5>
+              <p>Instant access</p>
+            </div>
+            <div class="why-card-item">
+              <div class="why-icon-circle"><i class="ri-map-pin-2-line"></i></div>
+              <h5>3 Pickup Hubs</h5>
+              <p>Tolichowki, Madhapur & Gachibowli</p>
+            </div>
+            <div class="why-card-item">
+              <div class="why-icon-circle"><i class="ri-speed-up-line"></i></div>
+              <h5>Unlimited KMs</h5>
+              <p>Drive limits-free</p>
+            </div>
+          </div>
         </div>
 
       </section>
