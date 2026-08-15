@@ -1,121 +1,127 @@
 import 'package:flutter/material.dart';
 import 'theme.dart';
+import 'booking_screen.dart';
 
-// --- Dummy Data Models ---
+// --- Vehicle Data Model ---
 class CarModel {
   final String id;
   final String name;
   final String brand;
-  final bool isEV;
-  final int? batteryRangeKm;
-  final int? batteryPercentage;
-  final double pricePerHour;
-  final String imageUrl;
-  final int seatingCapacity;
+  final String type;
   final String transmission;
+  final String fuelType;
+  final int seatingCapacity;
+  final double rate12h;
+  final double rate24h;
+  final double rate3d;
+  final double rate7d;
+  final String primaryImage;
+  final List<String> galleryImages;
+  final List<String> features;
+  final String location;
 
   const CarModel({
     required this.id,
     required this.name,
     required this.brand,
-    required this.isEV,
-    this.batteryRangeKm,
-    this.batteryPercentage,
-    required this.pricePerHour,
-    required this.imageUrl,
-    required this.seatingCapacity,
+    required this.type,
     required this.transmission,
+    required this.fuelType,
+    required this.seatingCapacity,
+    required this.rate12h,
+    required this.rate24h,
+    required this.rate3d,
+    required this.rate7d,
+    required this.primaryImage,
+    required this.galleryImages,
+    required this.features,
+    required this.location,
   });
+
+  double getRateForPackage(String packageKey) {
+    switch (packageKey) {
+      case '12h':
+        return rate12h;
+      case '24h':
+        return rate24h;
+      case '3d':
+        return rate3d;
+      case '7d':
+        return rate7d;
+      default:
+        return rate24h;
+    }
+  }
 }
 
-// Dummy Car Data
-const List<CarModel> dummyEVCars = [
+// Actual SS Car Rentals Fleet
+const List<CarModel> sscFleet = [
   CarModel(
-    id: 'ev_1',
-    name: 'Model 3 Performance',
-    brand: 'Tesla',
-    isEV: true,
-    batteryRangeKm: 420,
-    batteryPercentage: 100,
-    pricePerHour: 22.50,
-    imageUrl: 'https://images.unsplash.com/photo-1563720223185-11003d516935?w=600&auto=format&fit=crop',
-    seatingCapacity: 5,
-    transmission: 'Automatic',
-  ),
-  CarModel(
-    id: 'ev_2',
-    name: 'Nexon EV Max',
-    brand: 'Tata Motors',
-    isEV: true,
-    batteryRangeKm: 312,
-    batteryPercentage: 95,
-    pricePerHour: 14.00,
-    imageUrl: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600&auto=format&fit=crop',
-    seatingCapacity: 5,
-    transmission: 'Automatic',
-  ),
-  CarModel(
-    id: 'ev_3',
-    name: 'Ioniq 5 EV',
+    id: 'grand_i10',
+    name: 'Grand i10 Nios',
     brand: 'Hyundai',
-    isEV: true,
-    batteryRangeKm: 380,
-    batteryPercentage: 98,
-    pricePerHour: 19.00,
-    imageUrl: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600&auto=format&fit=crop',
+    type: 'Hatchback',
+    transmission: 'Manual',
+    fuelType: 'Petrol',
     seatingCapacity: 5,
+    rate12h: 1000,
+    rate24h: 1800,
+    rate3d: 4800,
+    rate7d: 10500,
+    primaryImage: 'assets/images/grand_i10.jpg',
+    galleryImages: [
+      'assets/images/grand_i10.jpg',
+      'assets/images/grand_i10_1.jpg',
+      'assets/images/grand_i10_2.jpg',
+    ],
+    features: ['Air Conditioning', 'Touchscreen Music System', 'Power Windows', 'Fastag Enabled'],
+    location: 'Kakinada Main Branch',
+  ),
+  CarModel(
+    id: 'renault_kwid',
+    name: 'Kwid Climber AMT',
+    brand: 'Renault',
+    type: 'Compact Hatchback',
     transmission: 'Automatic',
+    fuelType: 'Petrol',
+    seatingCapacity: 5,
+    rate12h: 800,
+    rate24h: 1400,
+    rate3d: 3800,
+    rate7d: 8000,
+    primaryImage: 'assets/images/renault_kwid.jpg',
+    galleryImages: [
+      'assets/images/renault_kwid.jpg',
+      'assets/images/renault_kwid_1.jpg',
+      'assets/images/renault_kwid_2.jpg',
+      'assets/images/renault_kwid_3.jpg',
+    ],
+    features: ['AMT Automatic', 'Reverse Camera', 'Compact Parking Ease', 'Bluetooth Audio'],
+    location: 'Kakinada Main Branch',
+  ),
+  CarModel(
+    id: 'skoda_rapid',
+    name: 'Rapid 1.0 TSI',
+    brand: 'Skoda',
+    type: 'Premium Sedan',
+    transmission: 'Manual',
+    fuelType: 'Petrol',
+    seatingCapacity: 5,
+    rate12h: 1400,
+    rate24h: 2400,
+    rate3d: 6500,
+    rate7d: 14000,
+    primaryImage: 'assets/images/skoda.jpg',
+    galleryImages: [
+      'assets/images/skoda.jpg',
+      'assets/images/skoda_1.jpg',
+      'assets/images/skoda_2.jpg',
+    ],
+    features: ['Turbo TSI Power', 'Alloy Wheels', 'Leather Seats', 'Cruise Control', 'Large Boot'],
+    location: 'Rajahmundry Station Hub',
   ),
 ];
 
-const List<CarModel> dummyAllCars = [
-  CarModel(
-    id: 'car_1',
-    name: 'Model 3 Performance',
-    brand: 'Tesla EV',
-    isEV: true,
-    batteryRangeKm: 420,
-    batteryPercentage: 100,
-    pricePerHour: 22.50,
-    imageUrl: 'https://images.unsplash.com/photo-1563720223185-11003d516935?w=600&auto=format&fit=crop',
-    seatingCapacity: 5,
-    transmission: 'Automatic',
-  ),
-  CarModel(
-    id: 'car_2',
-    name: 'Civic Sport',
-    brand: 'Honda',
-    isEV: false,
-    pricePerHour: 11.50,
-    imageUrl: 'https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?w=600&auto=format&fit=crop',
-    seatingCapacity: 5,
-    transmission: 'Automatic',
-  ),
-  CarModel(
-    id: 'car_3',
-    name: 'CX-5 AWD',
-    brand: 'Mazda',
-    isEV: false,
-    pricePerHour: 15.00,
-    imageUrl: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&auto=format&fit=crop',
-    seatingCapacity: 5,
-    transmission: 'Automatic',
-  ),
-  CarModel(
-    id: 'car_4',
-    name: 'Nexon EV Max',
-    brand: 'Tata EV',
-    isEV: true,
-    batteryRangeKm: 312,
-    batteryPercentage: 95,
-    pricePerHour: 14.00,
-    imageUrl: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=600&auto=format&fit=crop',
-    seatingCapacity: 5,
-    transmission: 'Automatic',
-  ),
-];
-
-// --- Main HomeScreen Widget ---
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -124,89 +130,199 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  DateTime _selectedDate = DateTime.now();
+  String _selectedLocation = 'All Locations';
+  String _selectedPackage = '24h';
 
-  Future<void> _pickDate() async {
-    final picked = await showDatePicker(
+  final List<Map<String, String>> _durationPackages = [
+    {'key': '12h', 'label': '12 Hours'},
+    {'key': '24h', 'label': '24 Hours'},
+    {'key': '3d', 'label': '3 Days'},
+    {'key': '7d', 'label': '7 Days'},
+  ];
+
+  final List<String> _locations = [
+    'All Locations',
+    'Kakinada Main Branch',
+    'Rajahmundry Station Hub',
+  ];
+
+  List<CarModel> get _filteredCars {
+    if (_selectedLocation == 'All Locations') return sscFleet;
+    return sscFleet.where((car) => car.location == _selectedLocation).toList();
+  }
+
+  void _showGalleryDialog(BuildContext context, CarModel car) {
+    showDialog(
       context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 90)),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: RydETheme.primaryGreen,
-              onPrimary: Colors.white,
-              onSurface: RydETheme.textDark,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: SSCTheme.darkSurface,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${car.brand} ${car.name}',
+                      style: const TextStyle(
+                        color: SSCTheme.textLight,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close, color: SSCTheme.primaryGold),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  height: 200,
+                  child: PageView.builder(
+                    itemCount: car.galleryImages.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: SSCTheme.darkCard,
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              Image.asset(
+                                car.galleryImages[index],
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    color: SSCTheme.darkCard,
+                                    child: const Center(
+                                      child: Icon(Icons.directions_car, color: SSCTheme.primaryGold, size: 50),
+                                    ),
+                                  );
+                                },
+                              ),
+                              Positioned(
+                                bottom: 8,
+                                right: 8,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.7),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    '${index + 1} / ${car.galleryImages.length}',
+                                    style: const TextStyle(color: SSCTheme.textLight, fontSize: 12),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 6,
+                  children: car.features
+                      .map(
+                        (f) => Chip(
+                          backgroundColor: SSCTheme.darkCard,
+                          side: const BorderSide(color: SSCTheme.darkBorder),
+                          label: Text(
+                            f,
+                            style: const TextStyle(color: SSCTheme.textMuted, fontSize: 11),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ],
             ),
           ),
-          child: child!,
         );
       },
     );
-    if (picked != null) {
-      setState(() {
-        _selectedDate = picked;
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: RydETheme.pureWhite,
-      // 1. Custom Clean White App Bar with Branded RichText
+      backgroundColor: SSCTheme.darkBg,
       appBar: AppBar(
-        backgroundColor: RydETheme.pureWhite,
+        backgroundColor: SSCTheme.darkSurface,
         elevation: 0,
-        scaffoldBackgroundColor: RydETheme.pureWhite,
-        titleSpacing: 20,
-        title: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: 'ryd ',
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w800,
-                  color: RydETheme.textDark,
-                  fontFamily: 'Poppins',
+        title: Row(
+          children: [
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: SSCTheme.primaryGold, width: 1.5),
+              ),
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => const Icon(
+                    Icons.directions_car,
+                    color: SSCTheme.primaryGold,
+                    size: 20,
+                  ),
                 ),
               ),
-              WidgetSpan(
-                alignment: PlaceholderAlignment.middle,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: RydETheme.primaryGreen,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Text(
-                    'e',
+            ),
+            const SizedBox(width: 10),
+            RichText(
+              text: const TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'SS CAR ',
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 18,
                       fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                      fontFamily: 'Poppins',
+                      color: SSCTheme.primaryGold,
+                      letterSpacing: 1.2,
                     ),
                   ),
-                ),
+                  TextSpan(
+                    text: 'RENTALS',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: SSCTheme.textLight,
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 16),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade100,
-              shape: BoxShape.circle,
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.notifications_outlined, color: RydETheme.textDark),
-              onPressed: () {},
-            ),
+          IconButton(
+            icon: const Icon(Icons.headset_mic_outlined, color: SSCTheme.primaryGold),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Support Hotline: +91 98663 55123'),
+                  backgroundColor: SSCTheme.darkCard,
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -216,441 +332,368 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 2. Search & Date Filter Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            // Hero Banner
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [SSCTheme.darkSurface, SSCTheme.darkCard],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: SSCTheme.primaryGold.withOpacity(0.4), width: 1),
+              ),
+              child: Row(
                 children: [
-                  Text(
-                    'Rent a Vehicle, Drive Clean',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: RydETheme.textGrey,
-                          fontWeight: FontWeight.w500,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          'Self-Drive Luxury & Comfort',
+                          style: TextStyle(
+                            color: SSCTheme.primaryGold,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Verified cars with zero security deposit hassle. Easy online KYC verification.',
+                          style: TextStyle(
+                            color: SSCTheme.textMuted,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 14),
-                  Row(
-                    children: [
-                      // Location Search Bar with Subtle Border -> Green Focus
-                      Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Search city or pick-up hub...',
-                            prefixIcon: const Icon(
-                              Icons.location_on,
-                              color: RydETheme.primaryGreen,
-                            ),
-                            hintStyle: const TextStyle(
-                              color: RydETheme.textGrey,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      // Calendar Date Picker Button
-                      InkWell(
-                        onTap: _pickDate,
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          height: 56,
-                          width: 56,
-                          decoration: BoxDecoration(
-                            color: RydETheme.pureWhite,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: RydETheme.subtleGrey, width: 1.5),
-                          ),
-                          child: const Icon(
-                            Icons.calendar_today_rounded,
-                            color: RydETheme.primaryGreen,
-                            size: 22,
-                          ),
-                        ),
-                      ),
-                    ],
+                  const SizedBox(width: 10),
+                  const Icon(
+                    Icons.auto_awesome,
+                    color: SSCTheme.primaryGold,
+                    size: 38,
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 28),
+            const SizedBox(height: 20),
 
-            // 3. EV Spotlight (Horizontal Carousel)
+            // Location Selector Section
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Pickup Hub / Location',
+                    style: TextStyle(
+                      color: SSCTheme.textLight,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: _locations.map((loc) {
+                        final isSelected = loc == _selectedLocation;
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: ChoiceChip(
+                            label: Text(loc),
+                            selected: isSelected,
+                            selectedColor: SSCTheme.primaryGold,
+                            backgroundColor: SSCTheme.darkCard,
+                            side: BorderSide(
+                              color: isSelected ? SSCTheme.primaryGold : SSCTheme.darkBorder,
+                            ),
+                            labelStyle: TextStyle(
+                              color: isSelected ? SSCTheme.darkBg : SSCTheme.textLight,
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                              fontSize: 13,
+                            ),
+                            onSelected: (val) {
+                              if (val) setState(() => _selectedLocation = loc);
+                            },
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Duration Package Filter
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Rental Duration Package',
+                    style: TextStyle(
+                      color: SSCTheme.textLight,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: _durationPackages.map((pkg) {
+                      final isSelected = pkg['key'] == _selectedPackage;
+                      return Expanded(
+                        child: GestureDetector(
+                          onTap: () => setState(() => _selectedPackage = pkg['key']!),
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            decoration: BoxDecoration(
+                              color: isSelected ? SSCTheme.primaryGold : SSCTheme.darkCard,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: isSelected ? SSCTheme.primaryGold : SSCTheme.darkBorder,
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                pkg['label']!,
+                                style: TextStyle(
+                                  color: isSelected ? SSCTheme.darkBg : SSCTheme.textLight,
+                                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // Fleet Catalog List Header
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: const [
-                      Icon(Icons.bolt_rounded, color: RydETheme.primaryGreen, size: 24),
-                      SizedBox(width: 6),
-                      Text(
-                        'Go Green: Top EVs',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: RydETheme.textDark,
-                        ),
-                      ),
-                    ],
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'View All',
-                      style: TextStyle(
-                        color: RydETheme.primaryGreen,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  Text(
+                    'Available Fleet (${_filteredCars.length})',
+                    style: const TextStyle(
+                      color: SSCTheme.textLight,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
+                  const Icon(Icons.tune_rounded, color: SSCTheme.primaryGold, size: 20),
                 ],
               ),
             ),
             const SizedBox(height: 12),
-            SizedBox(
-              height: 250,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.only(left: 20, right: 8),
-                itemCount: dummyEVCars.length,
-                itemBuilder: (context, index) {
-                  final car = dummyEVCars[index];
-                  return _EVSpotlightCard(car: car);
-                },
-              ),
-            ),
 
-            const SizedBox(height: 28),
-
-            // 4. Standard Fleet List (Vertical List)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
-                    'All Vehicles',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: RydETheme.textDark,
-                    ),
-                  ),
-                  Icon(Icons.tune_rounded, color: RydETheme.textGrey, size: 22),
-                ],
-              ),
-            ),
-            const SizedBox(height: 14),
+            // Fleet Car List Cards
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              itemCount: dummyAllCars.length,
+              itemCount: _filteredCars.length,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               itemBuilder: (context, index) {
-                final car = dummyAllCars[index];
-                return _StandardVehicleCard(car: car);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+                final car = _filteredCars[index];
+                final price = car.getRateForPackage(_selectedPackage);
+                final pkgLabel = _durationPackages.firstWhere((p) => p['key'] == _selectedPackage)['label'];
 
-// --- Component: EV Spotlight Card (Horizontal Carousel Item) ---
-class _EVSpotlightCard extends StatelessWidget {
-  final CarModel car;
-
-  const _EVSpotlightCard({required this.car});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 260,
-      margin: const EdgeInsets.only(right: 16, bottom: 8),
-      decoration: BoxDecoration(
-        color: RydETheme.pureWhite,
-        borderRadius: BorderRadius.circular(18),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x0C000000),
-            blurRadius: 12,
-            offset: Offset(0, 4),
-          ),
-        ],
-        border: Border.all(color: RydETheme.lightGreen.withOpacity(0.5), width: 1.5),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Image with EV Badge overlay
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
-                child: Image.network(
-                  car.imageUrl,
-                  height: 130,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      height: 130,
-                      color: Colors.grey.shade200,
-                      child: const Center(
-                        child: Icon(Icons.directions_car, size: 40, color: RydETheme.primaryGreen),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Positioned(
-                top: 10,
-                right: 10,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: RydETheme.primaryGreen,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.bolt, color: Colors.white, size: 14),
-                      const SizedBox(width: 2),
-                      Text(
-                        '${car.batteryPercentage}% • ${car.batteryRangeKm} km',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  car.brand.toUpperCase(),
-                  style: const TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                    color: RydETheme.primaryGreen,
-                    letterSpacing: 1,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  car.name,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: RydETheme.textDark,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '\$${car.pricePerHour.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: RydETheme.textDark,
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                          const TextSpan(
-                            text: ' /hr',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: RydETheme.textGrey,
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Icon(
-                      Icons.arrow_forward_rounded,
-                      color: RydETheme.primaryGreen,
-                      size: 20,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// --- Component: Standard Vehicle Card (Vertical List Item) ---
-class _StandardVehicleCard extends StatelessWidget {
-  final CarModel car;
-
-  const _StandardVehicleCard({required this.car});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-        color: RydETheme.pureWhite,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x08000000),
-            blurRadius: 10,
-            offset: Offset(0, 2),
-          ),
-        ],
-        border: Border.all(color: RydETheme.subtleGrey, width: 1),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Row(
-          children: [
-            // Vehicle Thumbnail with EV Badge if EV
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Stack(
-                children: [
-                  Image.network(
-                    car.imageUrl,
-                    width: 105,
-                    height: 90,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        width: 105,
-                        height: 90,
-                        color: Colors.grey.shade200,
-                        child: const Icon(Icons.directions_car, color: RydETheme.primaryGreen),
-                      );
-                    },
-                  ),
-                  if (car.isEV)
-                    Positioned(
-                      top: 6,
-                      left: 6,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: const BoxDecoration(
-                          color: RydETheme.primaryGreen,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(Icons.bolt, color: Colors.white, size: 12),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 14),
-
-            // Vehicle Specs & Details
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    car.name,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: RydETheme.textDark,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      const Icon(Icons.airline_seat_recline_normal, size: 14, color: RydETheme.textGrey),
-                      const SizedBox(width: 2),
-                      Text(
-                        '${car.seatingCapacity} Seats',
-                        style: const TextStyle(fontSize: 12, color: RydETheme.textGrey),
-                      ),
-                      const SizedBox(width: 10),
-                      const Icon(Icons.settings, size: 14, color: RydETheme.textGrey),
-                      const SizedBox(width: 2),
-                      Text(
-                        car.transmission,
-                        style: const TextStyle(fontSize: 12, color: RydETheme.textGrey),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: '\$${car.pricePerHour.toStringAsFixed(2)}',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: RydETheme.textDark,
-                                fontFamily: 'Poppins',
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  child: Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Car Header & Image
+                        GestureDetector(
+                          onTap: () => _showGalleryDialog(context, car),
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Container(
+                                  height: 180,
+                                  width: double.infinity,
+                                  color: SSCTheme.darkBg,
+                                  child: Image.asset(
+                                    car.primaryImage,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Container(
+                                        color: SSCTheme.darkBg,
+                                        child: const Center(
+                                          child: Icon(
+                                            Icons.directions_car_filled_rounded,
+                                            color: SSCTheme.primaryGold,
+                                            size: 60,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
                               ),
+                              Positioned(
+                                top: 8,
+                                right: 8,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.75),
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(color: SSCTheme.primaryGold.withOpacity(0.5)),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: const [
+                                      Icon(Icons.collections, color: SSCTheme.primaryGold, size: 14),
+                                      SizedBox(width: 4),
+                                      Text(
+                                        'Photos',
+                                        style: TextStyle(color: SSCTheme.textLight, fontSize: 11),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+
+                        // Title & Transmission
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  car.name,
+                                  style: const TextStyle(
+                                    color: SSCTheme.textLight,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  '${car.brand} • ${car.type}',
+                                  style: const TextStyle(
+                                    color: SSCTheme.textMuted,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const TextSpan(
-                              text: ' /hr',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: RydETheme.textGrey,
-                                fontFamily: 'Poppins',
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: SSCTheme.darkBg,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: SSCTheme.darkBorder),
+                              ),
+                              child: Text(
+                                car.transmission,
+                                style: const TextStyle(
+                                  color: SSCTheme.primaryGold,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      // Solid Green "Book Now" Button
-                      SizedBox(
-                        height: 36,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: RydETheme.primaryGreen,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                        const SizedBox(height: 10),
+
+                        // Specifications Row
+                        Row(
+                          children: [
+                            const Icon(Icons.airline_seat_recline_normal, color: SSCTheme.textSubtle, size: 16),
+                            const SizedBox(width: 4),
+                            Text('${car.seatingCapacity} Seats', style: const TextStyle(color: SSCTheme.textMuted, fontSize: 12)),
+                            const SizedBox(width: 14),
+                            const Icon(Icons.local_gas_station_rounded, color: SSCTheme.textSubtle, size: 16),
+                            const SizedBox(width: 4),
+                            Text(car.fuelType, style: const TextStyle(color: SSCTheme.textMuted, fontSize: 12)),
+                            const SizedBox(width: 14),
+                            const Icon(Icons.location_on_outlined, color: SSCTheme.textSubtle, size: 16),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                car.location.replaceAll(' Main Branch', '').replaceAll(' Station Hub', ''),
+                                style: const TextStyle(color: SSCTheme.textMuted, fontSize: 12),
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
-                            elevation: 0,
-                          ),
-                          child: const Text(
-                            'Book Now',
-                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
+                          ],
                         ),
-                      ),
-                    ],
+                        const Divider(color: SSCTheme.darkBorder, height: 24),
+
+                        // Price & Book Now Action
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '₹${price.toInt()}',
+                                  style: const TextStyle(
+                                    color: SSCTheme.primaryGold,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  'For $pkgLabel package',
+                                  style: const TextStyle(
+                                    color: SSCTheme.textSubtle,
+                                    fontSize: 11,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BookingScreen(
+                                      car: car,
+                                      initialPackageKey: _selectedPackage,
+                                    ),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(130, 44),
+                                backgroundColor: SSCTheme.primaryGold,
+                                foregroundColor: SSCTheme.darkBg,
+                              ),
+                              icon: const Icon(Icons.key_rounded, size: 18),
+                              label: const Text('Book Now'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
+                );
+              },
             ),
           ],
         ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
+import 'trips_screen.dart';
+import 'profile_screen.dart';
 import 'theme.dart';
 
 class MainLayout extends StatefulWidget {
@@ -12,31 +14,33 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   int _currentIndex = 0;
 
-  // Screens corresponding to each Bottom Navigation item
   final List<Widget> _screens = const [
     HomeScreen(),
-    _MyTripsScreenPlaceholder(),
-    _ProfileScreenPlaceholder(),
+    TripsScreen(),
+    ProfileScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: RydETheme.pureWhite,
+      backgroundColor: SSCTheme.darkBg,
       body: IndexedStack(
         index: _currentIndex,
         children: _screens,
       ),
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: RydETheme.pureWhite,
+        decoration: BoxDecoration(
+          color: SSCTheme.darkSurface,
           boxShadow: [
             BoxShadow(
-              color: Color(0x0F000000),
+              color: Colors.black.withOpacity(0.4),
               blurRadius: 10,
-              offset: Offset(0, -2),
+              offset: const Offset(0, -2),
             ),
           ],
+          border: const Border(
+            top: BorderSide(color: SSCTheme.darkBorder, width: 1),
+          ),
         ),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
@@ -45,9 +49,9 @@ class _MainLayoutState extends State<MainLayout> {
               _currentIndex = index;
             });
           },
-          backgroundColor: RydETheme.pureWhite,
-          selectedItemColor: RydETheme.primaryGreen,
-          unselectedItemColor: RydETheme.textGrey,
+          backgroundColor: SSCTheme.darkSurface,
+          selectedItemColor: SSCTheme.primaryGold,
+          unselectedItemColor: SSCTheme.textSubtle,
           selectedLabelStyle: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 12,
@@ -61,51 +65,19 @@ class _MainLayoutState extends State<MainLayout> {
             BottomNavigationBarItem(
               icon: Icon(Icons.directions_car_outlined),
               activeIcon: Icon(Icons.directions_car),
-              label: 'Home',
+              label: 'Fleet Catalog',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.route_outlined),
-              activeIcon: Icon(Icons.route),
-              label: 'My Trips',
+              icon: Icon(Icons.confirmation_number_outlined),
+              activeIcon: Icon(Icons.confirmation_number),
+              label: 'My Bookings',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_outline),
               activeIcon: Icon(Icons.person),
-              label: 'Profile',
+              label: 'Account & KYC',
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _MyTripsScreenPlaceholder extends StatelessWidget {
-  const _MyTripsScreenPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text(
-          'My Trips',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
-}
-
-class _ProfileScreenPlaceholder extends StatelessWidget {
-  const _ProfileScreenPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text(
-          'Profile & Settings',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
     );
