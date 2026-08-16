@@ -628,21 +628,21 @@ html, body {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #0B0F17;
-  border: 1px solid var(--subtle-grey);
+  background: #141C2B;
+  border: 1.5px solid var(--accent-gold);
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 18px;
-  color: var(--text-dark);
+  color: var(--accent-gold);
   cursor: pointer;
   transition: var(--transition);
 }
 
 .modal-close-btn:hover {
-  background: rgba(239, 68, 68, 0.15);
-  color: #EF4444;
-  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(229, 193, 88, 0.25);
+  color: #FFFFFF;
+  border-color: var(--accent-gold);
 }
 
 /* V2 Summary Screen Elements */

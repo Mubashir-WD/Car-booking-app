@@ -14,8 +14,8 @@
     
     <!-- App Header (SS Car Rental Branding) -->
     <header class="app-header">
-      <div class="brand-logo" onclick="switchMainTab('home-tab')" style="cursor: pointer; display: flex; align-items: center;">
-        <img src="images/logo.png" alt="SS Car Rental Logo" class="header-logo-img" style="width: 38px; height: 38px; min-width: 38px; min-height: 38px; max-width: 38px; max-height: 38px; border-radius: 50%; object-fit: cover;">
+      <div class="brand-logo" onclick="switchMainTab('home-tab')" style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
+        <img src="images/logo.png" alt="SS Car Rental Logo" class="header-logo-img" style="width: 38px; height: 38px; min-width: 38px; min-height: 38px; max-width: 38px; max-height: 38px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--accent-gold);">
         <div class="brand-text-col">
           <span class="brand-name">SS CAR RENTAL</span>
           <span class="brand-sub">Self Drive Cars</span>
@@ -23,15 +23,17 @@
       </div>
       <div class="header-actions">
         <span class="hyd-chip">Hyderabad</span>
-        <a href="https://wa.me/919866355123" target="_blank" class="icon-btn whatsapp-btn" title="Chat on WhatsApp +91 98663 55123">
-          <i class="ri-whatsapp-line" style="color: #25D366; font-size: 19px;"></i>
+        <a href="https://wa.me/919866355123" target="_blank" class="icon-btn whatsapp-btn" title="Chat on WhatsApp +91 98663 55123" style="display: flex; align-items: center; justify-content: center; background: rgba(37, 211, 102, 0.15); border: 1px solid rgba(37, 211, 102, 0.4); text-decoration: none;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z" fill="#25D366"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 2.15.678 4.143 1.834 5.776L2.5 21.5l3.864-1.306A9.956 9.956 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm-8 10c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8a7.962 7.962 0 01-4.211-1.196l-.302-.18-2.285.772.784-2.238-.198-.315A7.96 7.96 0 014 12z" fill="#25D366"/>
+          </svg>
         </a>
         <button class="header-login-btn" id="header-login-btn" onclick="openMobileLoginModal()">
           <i class="ri-login-circle-line"></i> Login
         </button>
-        <button class="icon-btn" title="Notifications" onclick="showToast('No new notifications')">
-          <i class="ri-notification-3-line"></i>
-          <span class="notification-dot"></span>
+        <button class="icon-btn" title="Admin Portal" onclick="switchMainTab('admin-tab')" style="display: flex; align-items: center; justify-content: center; background: rgba(229, 193, 88, 0.15); border: 1px solid var(--accent-gold);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E5C158" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
         </button>
       </div>
     </header>
@@ -42,7 +44,7 @@
       <!-- TAB 1: EXPLORE CARS (HOME) -->
       <section id="home-tab" class="tab-screen active">
 
-        <!-- HERO PROMO CAROUSEL BANNER (Matching Client Screenshot) -->
+        <!-- HERO PROMO CAROUSEL BANNER -->
         <div class="section-padding" style="margin-top: 6px;">
           <div class="hero-banner-card" onclick="scrollToFleetCatalog()" style="cursor: pointer;">
             <div class="promo-badge-tag">UNLIMITED KILOMETERS</div>
@@ -59,12 +61,12 @@
           </div>
         </div>
 
-        <!-- QUICK BOOK A CAR CALLOUT CARD (Matching Client Screenshot) -->
+        <!-- QUICK BOOK A CAR CALLOUT CARD -->
         <div class="section-padding" style="margin-top: 12px;">
           <div class="book-now-callout-card">
             <div class="callout-left">
-              <div class="callout-icon-box">
-                <i class="ri-car-fill"></i>
+              <div class="callout-icon-box" style="display: flex; align-items: center; justify-content: center;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9C2.1 11.2 2 11.6 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>
               </div>
               <div class="callout-text">
                 <h3>Book a Car Now</h3>
@@ -77,12 +79,13 @@
           </div>
         </div>
         
-        <!-- Hyderabad Location Search Box (Places Autocomplete + GPS) -->
+        <!-- Hyderabad Location Search Box -->
         <div class="section-padding" style="margin-top: 10px;">
           <div class="location-search-card" id="location-focus-card">
             <div style="display: flex; justify-content: space-between; align-items: center;">
-              <label style="font-size: 11px; font-weight: 800; color: var(--primary-green); text-transform: uppercase; letter-spacing: 0.5px;">
-                <i class="ri-map-pin-2-fill"></i> Pickup Location in Hyderabad
+              <label style="font-size: 11px; font-weight: 800; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#E5C158"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                Pickup Location in Hyderabad
               </label>
               <button class="use-gps-btn" onclick="useCurrentLocationGPS()" title="Use Current GPS Location">
                 <i class="ri-crosshair-2-line"></i> Current Location
@@ -109,7 +112,7 @@
                 <input type="time" class="time-input" id="search-drop-time" onchange="validateSearchDateTime()">
               </div>
             </div>
-            <div style="font-size: 10px; color: var(--primary-green); font-weight: 700; margin-top: 6px; text-align: right;">
+            <div style="font-size: 10px; color: var(--accent-gold); font-weight: 700; margin-top: 6px; text-align: right;">
               ⚡ Flexible Duration Packages: 8h • 12h • 24h
             </div>
           </div>
@@ -160,7 +163,7 @@
         <div class="section-padding">
           <div class="section-header">
             <div class="section-title">Available Hyderabad Fleet</div>
-            <span style="font-size: 11px; color: var(--primary-green); font-weight: 700;">400 KM Included FREE</span>
+            <span style="font-size: 11px; color: var(--accent-gold); font-weight: 700;">400 KM Included FREE</span>
           </div>
         </div>
 
@@ -169,33 +172,61 @@
           <!-- Dynamically injected by JS -->
         </div>
 
-        <!-- WHY CHOOSE SS CAR RENTAL SECTION (Trust Badges) -->
+        <!-- WHY CHOOSE SS CAR RENTAL SECTION -->
         <div class="section-padding" style="margin-top: 20px; margin-bottom: 12px;">
           <h3 class="why-choose-header-title">Why Choose SS Car Rental?</h3>
           <div class="why-choose-banner-card">
             <h4>Drive Your Dreams, Rent with Ease</h4>
           </div>
           <div class="why-choose-grid">
+            
+            <!-- Box 1: Zero Deposit -->
             <div class="why-card-item">
-              <div class="why-icon-circle"><i class="ri-wallet-3-line"></i></div>
-              <h5>Zero Deposit</h5>
+              <div class="why-icon-circle" style="display: flex; align-items: center; justify-content: center; background: rgba(229, 193, 88, 0.15); border: 1px solid var(--accent-gold); border-radius: 50%; width: 42px; height: 42px;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E5C158" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  <path d="M9 12l2 2 4-4"></path>
+                </svg>
+              </div>
+              <h5 style="margin-top: 8px;">Zero Deposit</h5>
               <p>No hidden holds</p>
             </div>
+
+            <!-- Box 2: Keyless Unlock -->
             <div class="why-card-item">
-              <div class="why-icon-circle"><i class="ri-key-2-line"></i></div>
-              <h5>Keyless Unlock</h5>
+              <div class="why-icon-circle" style="display: flex; align-items: center; justify-content: center; background: rgba(229, 193, 88, 0.15); border: 1px solid var(--accent-gold); border-radius: 50%; width: 42px; height: 42px;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E5C158" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                </svg>
+              </div>
+              <h5 style="margin-top: 8px;">Keyless Unlock</h5>
               <p>Instant access</p>
             </div>
+
+            <!-- Box 3: 3 Pickup Hubs -->
             <div class="why-card-item">
-              <div class="why-icon-circle"><i class="ri-map-pin-2-line"></i></div>
-              <h5>3 Pickup Hubs</h5>
+              <div class="why-icon-circle" style="display: flex; align-items: center; justify-content: center; background: rgba(229, 193, 88, 0.15); border: 1px solid var(--accent-gold); border-radius: 50%; width: 42px; height: 42px;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E5C158" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </div>
+              <h5 style="margin-top: 8px;">3 Pickup Hubs</h5>
               <p>Tolichowki, Madhapur & Gachibowli</p>
             </div>
+
+            <!-- Box 4: Unlimited KMs -->
             <div class="why-card-item">
-              <div class="why-icon-circle"><i class="ri-speed-up-line"></i></div>
-              <h5>Unlimited KMs</h5>
+              <div class="why-icon-circle" style="display: flex; align-items: center; justify-content: center; background: rgba(229, 193, 88, 0.15); border: 1px solid var(--accent-gold); border-radius: 50%; width: 42px; height: 42px;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E5C158" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <h5 style="margin-top: 8px;">Unlimited KMs</h5>
               <p>Drive limits-free</p>
             </div>
+
           </div>
         </div>
 
@@ -256,37 +287,40 @@
       <div class="modal-sheet" style="padding-bottom: 24px;">
         <div class="modal-sheet-header">
           <div class="sheet-handle"></div>
-          <button class="modal-close-btn" onclick="closeMobileLoginModal()" title="Close Popup">
-            <i class="ri-close-line"></i>
+          <button class="modal-close-btn" onclick="closeMobileLoginModal()" title="Close Popup" style="display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border: 1px solid var(--accent-gold); color: var(--accent-gold); width: 32px; height: 32px; border-radius: 50%;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E5C158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
         </div>
 
         <div style="text-align: center; margin-bottom: 18px;">
-          <div style="width: 54px; height: 54px; background: #ECFDF5; color: var(--primary-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 10px; border: 2px solid #A7F3D0;">
-            <i class="ri-smartphone-line"></i>
+          <div style="width: 56px; height: 56px; background: rgba(229, 193, 88, 0.15); color: var(--accent-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; border: 2px solid var(--accent-gold);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E5C158" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
           </div>
-          <h3 class="modal-title" style="font-size: 18px; font-weight: 800;">Login with Mobile</h3>
-          <p class="modal-subtitle" style="font-size: 12px; color: var(--text-grey); margin-top: 2px;">Enter your 10-digit mobile number to verify</p>
+          <h3 class="modal-title" style="font-size: 18px; font-weight: 800; color: var(--text-dark);">Login with Mobile</h3>
+          <p class="modal-subtitle" style="font-size: 12px; color: var(--text-grey); margin-top: 2px;">Enter your 10-digit mobile number to request live SMS OTP</p>
         </div>
 
         <div id="login-step-1">
           <div class="input-field-group">
             <label style="font-size: 11px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.5px;">Mobile Number</label>
             <div style="display: flex; gap: 8px; margin-top: 6px;">
-              <span style="height: 44px; padding: 0 12px; background: var(--off-white); border: 1.5px solid var(--subtle-grey); border-radius: var(--radius-sm); display: flex; align-items: center; font-weight: 700; font-size: 13px;">+91</span>
-              <input type="tel" id="user-mobile-input" placeholder="Enter 10-digit number" maxlength="10" style="flex:1; height: 44px; border: 1.5px solid var(--subtle-grey); border-radius: var(--radius-sm); padding: 0 12px; font-weight: 700; font-size: 14px; outline: none;">
+              <span style="height: 44px; padding: 0 12px; background: #141C2B; border: 1.5px solid var(--subtle-grey); border-radius: var(--radius-sm); display: flex; align-items: center; font-weight: 700; font-size: 13px; color: var(--accent-gold);">+91</span>
+              <input type="tel" id="user-mobile-input" placeholder="Enter 10-digit number" maxlength="10" style="flex:1; height: 44px; border: 1.5px solid var(--subtle-grey); border-radius: var(--radius-sm); padding: 0 12px; font-weight: 700; font-size: 14px; outline: none; background: #141C2B; color: var(--text-dark);">
             </div>
           </div>
-          <button class="btn-primary" style="margin-top: 16px;" onclick="sendMobileOtp()">Get OTP →</button>
+          <button class="btn-primary" style="margin-top: 16px;" onclick="sendMobileOtp()">Request SMS OTP →</button>
         </div>
 
         <div id="login-step-2" style="display: none;">
           <div class="input-field-group">
-            <label style="font-size: 11px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.5px;">Enter 4-Digit OTP</label>
-            <input type="text" id="user-otp-input" placeholder="1234" maxlength="4" style="width: 100%; height: 44px; border: 1.5px solid var(--subtle-grey); border-radius: var(--radius-sm); padding: 0 12px; font-size: 18px; font-weight: 800; text-align: center; letter-spacing: 6px; margin-top: 6px; outline: none;">
-            <span style="font-size: 11px; color: var(--primary-green); font-weight: 700; display: block; margin-top: 6px; text-align: center;">⚡ Demo OTP auto-filled: 1234</span>
+            <label style="font-size: 11px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.5px;">Enter 6-Digit OTP</label>
+            <input type="text" id="user-otp-input" placeholder="------" maxlength="6" style="width: 100%; height: 44px; border: 1.5px solid var(--accent-gold); border-radius: var(--radius-sm); padding: 0 12px; font-size: 20px; font-weight: 800; text-align: center; letter-spacing: 8px; margin-top: 6px; outline: none; background: #141C2B; color: var(--accent-gold);">
+            <div id="otp-timer-box" style="font-size: 11px; color: var(--accent-gold); font-weight: 700; margin-top: 8px; text-align: center;">
+              ⏱️ Resend OTP available in <span id="otp-countdown">30</span>s
+            </div>
           </div>
           <button class="btn-primary" style="margin-top: 16px;" onclick="verifyMobileOtp()">Verify OTP & Login</button>
+          <button class="btn-secondary" id="resend-otp-btn" style="margin-top: 8px; display: none;" onclick="sendMobileOtp()">Resend OTP via SMS</button>
         </div>
       </div>
     </div>
@@ -310,8 +344,8 @@
       <div class="modal-sheet" style="padding-bottom: 24px;">
         <div class="modal-sheet-header">
           <div class="sheet-handle"></div>
-          <button class="modal-close-btn" onclick="closeCancelModal()" title="Close Popup">
-            <i class="ri-close-line"></i>
+          <button class="modal-close-btn" onclick="closeCancelModal()" title="Close Popup" style="display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border: 1px solid var(--accent-gold); color: var(--accent-gold); width: 32px; height: 32px; border-radius: 50%;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E5C158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
         </div>
 
@@ -323,10 +357,10 @@
           <p class="modal-subtitle" id="cancel-car-info">Vehicle Info</p>
         </div>
 
-        <div class="card-box" style="background: #F8FAFC; margin-bottom: 14px;">
+        <div class="card-box" style="background: #141C2B; margin-bottom: 14px;">
           <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px;">
             <span>Refund Eligibility</span>
-            <span style="color: var(--primary-green); font-weight: 700;">100% Full Refund</span>
+            <span style="color: var(--accent-gold); font-weight: 700;">100% Full Refund</span>
           </div>
           <div style="display: flex; justify-content: space-between; font-size: 13px;">
             <span>Refund Amount</span>
