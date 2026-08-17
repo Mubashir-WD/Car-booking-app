@@ -312,6 +312,18 @@
         </div>
 
         <div id="login-step-2" style="display: none;">
+          <!-- Live SMS Notification Banner & Auto-Fill Box -->
+          <div id="sms-live-banner" style="background: rgba(37, 211, 102, 0.12); border: 1.5px solid #25D366; border-radius: 12px; padding: 12px; margin-bottom: 14px; text-align: center;">
+            <div style="font-size: 11px; color: #25D366; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              SMS Sent to Mobile Number
+            </div>
+            <div style="font-size: 13px; color: var(--text-dark); margin-top: 4px;">Your 6-Digit OTP is: <strong id="display-otp-code" style="font-size: 20px; color: var(--accent-gold); letter-spacing: 2px; font-weight: 900;">------</strong></div>
+            <button type="button" onclick="autoFillOtp()" style="background: var(--accent-gold); color: #0D1117; border: none; padding: 6px 14px; border-radius: 8px; font-weight: 800; font-size: 11px; cursor: pointer; margin-top: 8px; display: inline-flex; align-items: center; gap: 4px;">
+              ⚡ Tap to Auto-Fill OTP
+            </button>
+          </div>
+
           <div class="input-field-group">
             <label style="font-size: 11px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.5px;">Enter 6-Digit OTP</label>
             <input type="text" id="user-otp-input" placeholder="------" maxlength="6" style="width: 100%; height: 44px; border: 1.5px solid var(--accent-gold); border-radius: var(--radius-sm); padding: 0 12px; font-size: 20px; font-weight: 800; text-align: center; letter-spacing: 8px; margin-top: 6px; outline: none; background: #141C2B; color: var(--accent-gold);">

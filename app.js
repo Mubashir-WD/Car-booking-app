@@ -523,6 +523,9 @@ function sendMobileOtp() {
   if (step1) step1.style.display = 'none';
   if (step2) step2.style.display = 'block';
 
+  const displayCode = document.getElementById('display-otp-code');
+  if (displayCode) displayCode.innerText = currentGeneratedOtp;
+
   const otpInput = document.getElementById('user-otp-input');
   if (otpInput) {
     otpInput.value = '';
@@ -532,9 +535,17 @@ function sendMobileOtp() {
   // Start 30-second countdown timer for resend
   startOtpCountdown(30);
 
-  // Show live SMS notification prompt simulating real phone SMS gateway delivery
-  showToast(`📱 SMS Sent: Your SS Car Rentals OTP is ${currentGeneratedOtp}`);
+  // Show live SMS notification prompt
+  showToast(`📱 SMS Sent: Your OTP is ${currentGeneratedOtp}`);
   console.log(`[SS Car Rentals OTP Gateway] Generated OTP ${currentGeneratedOtp} sent to +91 ${val}`);
+}
+
+function autoFillOtp() {
+  const otpInput = document.getElementById('user-otp-input');
+  if (otpInput && currentGeneratedOtp) {
+    otpInput.value = currentGeneratedOtp;
+    showToast('⚡ OTP Auto-filled!');
+  }
 }
 
 function startOtpCountdown(seconds) {
