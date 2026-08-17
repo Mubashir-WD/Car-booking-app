@@ -507,6 +507,15 @@ function closeMobileLoginModal() {
   if (otpCountdownInterval) clearInterval(otpCountdownInterval);
 }
 
+// Fast2SMS API Key for real Indian SIM SMS delivery
+let fast2SmsApiKey = localStorage.getItem('ssc_fast2sms_key') || '';
+
+function saveFast2SmsKey(key) {
+  fast2SmsApiKey = key.trim();
+  localStorage.setItem('ssc_fast2sms_key', fast2SmsApiKey);
+  showToast('✓ Fast2SMS API Key saved!');
+}
+
 function sendMobileOtp() {
   const val = document.getElementById('user-mobile-input')?.value.trim();
   if (!val || val.length !== 10 || isNaN(val)) {
@@ -535,9 +544,25 @@ function sendMobileOtp() {
   // Start 30-second countdown timer for resend
   startOtpCountdown(30);
 
-  // Show live SMS notification prompt
-  showToast(`📱 SMS Sent: Your OTP is ${currentGeneratedOtp}`);
-  console.log(`[SS Car Rentals OTP Gateway] Generated OTP ${currentGeneratedOtp} sent to +91 ${val}`);
+  // If Fast2SMS API Key is saved, send real SMS over Indian cellular network
+  if (fast2SmsApiKey) {
+    fetch(`https://www.fast2sms.com/dev/bulkV2?authorization=${fast2SmsApiKey}&route=otp&variables_values=${currentGeneratedOtp}&flash=0&numbers=${val}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.return) {
+          showToast(`📲 Real SMS delivered to +91 ${val}!`);
+        } else {
+          showToast(`📱 OTP Code: ${currentGeneratedOtp}`);
+        }
+      })
+      .catch(() => {
+        showToast(`📱 OTP Code: ${currentGeneratedOtp}`);
+      });
+  } else {
+    showToast(`📱 SMS Sent: Your OTP is ${currentGeneratedOtp}`);
+  }
+
+  console.log(`[SS Car Rentals SMS Gateway] Generated OTP ${currentGeneratedOtp} sent to +91 ${val}`);
 }
 
 function autoFillOtp() {
