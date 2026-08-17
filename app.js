@@ -508,7 +508,7 @@ function closeMobileLoginModal() {
 }
 
 // Fast2SMS API Key for real Indian SIM SMS delivery
-let fast2SmsApiKey = localStorage.getItem('ssc_fast2sms_key') || '';
+let fast2SmsApiKey = localStorage.getItem('ssc_fast2sms_key') || 'f8FhCV2EesnoaqtRWLAZGSNXBwudIc9iU1y3pgKj4lmQxbJ0OkGrwqEU3sTXRCM7hgZm0D1QtinbjB25';
 
 function saveFast2SmsKey(key) {
   fast2SmsApiKey = key.trim();
@@ -544,18 +544,22 @@ function sendMobileOtp() {
   // Start 30-second countdown timer for resend
   startOtpCountdown(30);
 
-  // If Fast2SMS API Key is saved, send real SMS over Indian cellular network
+  // Send real SMS request via Fast2SMS Gateway API
   if (fast2SmsApiKey) {
     fetch(`https://www.fast2sms.com/dev/bulkV2?authorization=${fast2SmsApiKey}&route=otp&variables_values=${currentGeneratedOtp}&flash=0&numbers=${val}`)
       .then(res => res.json())
       .then(data => {
-        if (data && data.return) {
+        if (data && (data.return || data.status_code === 200)) {
           showToast(`📲 Real SMS delivered to +91 ${val}!`);
+        } else if (data && data.message) {
+          console.warn('[Fast2SMS API Response]', data.message);
+          showToast(`📱 OTP Code: ${currentGeneratedOtp}`);
         } else {
           showToast(`📱 OTP Code: ${currentGeneratedOtp}`);
         }
       })
-      .catch(() => {
+      .catch(err => {
+        console.error('[Fast2SMS Error]', err);
         showToast(`📱 OTP Code: ${currentGeneratedOtp}`);
       });
   } else {
